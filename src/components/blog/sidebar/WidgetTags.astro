@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', (p) => !p.data.draft);
+
+const tags = new Set<string>();
+posts.forEach(post => {
+  if (post.data.tags) {
+    post.data.tags.forEach(tag => tags.add(tag));
+  }
+});
+const sortedTags = Array.from(tags).sort();
+---
+
+<div class="bg-white border border-[#e5e3db]/60 p-6 sm:p-8 rounded-none shadow-none">
+  <div class="flex items-center gap-3 mb-6 pb-4 border-b border-[#e5e3db]/60">
+    <span class="text-[#d0ba99]">✦</span>
+    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900">TAG BLOG</h3>
+  </div>
+  
+  <div class="flex flex-wrap gap-2">
+    {sortedTags.map(tag => (
+      <a href={`/tag/${tag}`} class="inline-block bg-[#faf9f6]/80 border border-[#3d4536]/20 text-[#3d4536] text-[0.6rem] font-bold tracking-widest uppercase px-3 py-1.5 rounded-none hover:bg-[#3d4536] hover:text-white hover:border-[#3d4536] transition-colors duration-300 no-underline">
+        {tag}
+      </a>
+    ))}
+  </div>
+</div>

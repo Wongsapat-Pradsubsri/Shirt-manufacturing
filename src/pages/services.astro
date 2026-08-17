@@ -1,0 +1,309 @@
+---
+// หน้าบริการ /services — ปลายทางของลิงก์ Services บน Navbar
+import PageLayout from '@/layouts/PageLayout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Faq from '@/components/Faq.astro';
+import { buildFaqJsonLd, type FaqItem } from '@/lib/faq';
+import { SERVICES } from '@/lib/services';
+import { SITE } from '@/consts';
+import logo from '@/assets/logo.png';
+
+// นำเข้าไฟล์ภาพสำหรับดีเทล
+import tshirtImg from '@/assets/home/T-Shirts_Collection.png';
+import poloImg from '@/assets/blogs/เสื้อโปโลยูนิฟอร์ม.png';
+import silkScreenImg from '@/assets/home/ScreenServices/Silk Screen.png';
+
+// URL หน้านี้ (absolute, ลงท้าย / ให้ตรง canonical) — ใช้ใน JSON-LD ของ Service และ Breadcrumb
+const pageUrl = new URL('/services/', Astro.site).toString();
+// @id ของ Organization กลาง (ออกทุกหน้าจาก SEO.astro) — อ้างผูก LocalBusiness ให้เป็น entity เดียวกัน
+const orgId = new URL('/#organization', Astro.site).toString();
+
+// จำนวนผลงานจริงสำหรับโชว์เป็นสถิติใน hero
+const works = (await getCollection('products')).length;
+
+// FAQ เฉพาะหน้าบริการ — แหล่งข้อมูลชุดเดียว ป้อนทั้ง accordion + FAQPage JSON-LD
+const faqItems: FaqItem[] = [
+  {
+    question: 'รับผลิตเสื้อขั้นต่ำกี่ตัว?',
+    answer:
+      'ยอดสั่งผลิตขั้นต่ำยืดหยุ่นตามชนิดงานและเทคนิคที่เลือก งานพิมพ์ดิจิทัล (DTG/DTF) เริ่มผลิตจำนวนน้อยได้ ส่วนงานซิลค์สกรีนจะแนะนำจำนวน 100 ตัวขึ้นเพื่อความคุ้มทุนสูงสุด ทักมาปรึกษาเพื่อให้ทีมงานแนะนำทางที่เหมาะกับงบและจำนวนของคุณได้เลย',
+  },
+  {
+    question: 'ใช้เวลาผลิตนานแค่ไหน?',
+    answer:
+      'ระยะเวลาขึ้นอยู่กับจำนวน เทคนิคงานพิมพ์ และความซับซ้อนของแบบ โดยทั่วไปเราจะแจ้งกำหนดส่งที่ชัดเจนพร้อมใบเสนอราคา และควบคุมการผลิตให้ตรงเวลาตามมาตรฐาน QPC (Quality, Price, Control)',
+  },
+  {
+    question: 'ควรเลือกซิลค์สกรีนหรือ DTG/DTF ดี?',
+    answer:
+      'ถ้าลายมีไม่กี่สีและสั่งจำนวนมาก ซิลค์สกรีนจะให้สีสดทนทานและต้นทุนต่อตัวต่ำกว่า แต่ถ้าลายมีหลายสี เป็นภาพถ่าย หรือสั่งจำนวนน้อย งานพิมพ์ดิจิทัล DTG/DTF จะเก็บรายละเอียดได้ดีกว่าโดยไม่ต้องทำบล็อกสกรีน ทีมงานช่วยแนะนำให้ตามลายและจำนวนที่ต้องการ',
+  },
+  {
+    question: 'มีบริการออกแบบให้ไหม คิดเงินเพิ่มหรือเปล่า?',
+    answer:
+      'มีบริการออกแบบฟรี (Design Free) ทีมดีไซน์ช่วยขึ้นแบบ จัดวางลาย และปรับแก้ให้จนพอใจก่อนเริ่มผลิตจริง พร้อมให้คำปรึกษาทุกขั้นตอนโดยไม่มีค่าใช้จ่ายเพิ่ม',
+  },
+  {
+    question: 'รับผลิตเสื้อประเภทไหนบ้าง?',
+    answer:
+      'รับผลิตเสื้อยืด เสื้อโปโล แจ็คเก็ต เสื้อช็อป รวมถึงกระเป๋าผ้า ครบวงจรตั้งแต่เลือกเนื้อผ้า ตัดเย็บ ไปจนถึงงานสกรีนและงานพิมพ์ทุกเทคนิค',
+  },
+  {
+    question: 'ขอใบเสนอราคาได้อย่างไร?',
+    answer:
+      'เพียงทักเข้ามาแจ้งแบบเสื้อ จำนวน และลวดลายที่ต้องการ ทีมงานจะช่วยประเมินราคา แนะนำเนื้อผ้าและเทคนิคสกรีน พร้อมส่งใบเสนอราคาและออกแบบให้ดูก่อนตัดสินใจ',
+  },
+  {
+    question: 'ต้องเตรียมไฟล์ลายสกรีนแบบไหน?',
+    answer:
+      'ไฟล์เวกเตอร์ (AI, EPS, PDF) คมชัดที่สุดเพราะขยายได้ไม่แตก หากเป็นไฟล์ภาพ (PNG/JPG) ควรความละเอียดสูงอย่างน้อย 300 dpi เท่าขนาดที่จะพิมพ์จริง ถ้ายังไม่มีไฟล์พร้อม ทีมออกแบบช่วยจัดทำและเกลาไฟล์ให้ฟรีก่อนผลิต',
+  },
+  {
+    question: 'สกรีนได้กี่สี มีค่าใช้จ่ายต่อสีไหม?',
+    answer:
+      'งานซิลค์สกรีนคิดต้นทุนตามจำนวนสี (แยกบล็อกต่อสี) ลายไม่กี่สีจึงคุ้มสุด ส่วนงานพิมพ์ดิจิทัล DTG/DTF พิมพ์ได้หลายสีหรือภาพไล่เฉดในครั้งเดียวโดยไม่คิดเพิ่มตามจำนวนสี ทีมงานจะแนะนำเทคนิคที่คุ้มที่สุดตามลายและจำนวนของคุณ',
+  },
+  {
+    question: 'มีบริการทำตัวอย่าง (sample) ก่อนผลิตจริงไหม?',
+    answer:
+      'มี เราแนะนำให้ดูแบบดิจิทัล (mockup) ทุกงานก่อนเริ่มผลิต และทำตัวอย่างจริงก่อนเดินสายการผลิตได้สำหรับงานจำนวนมาก เพื่อยืนยันเนื้อผ้า สี และตำแหน่งสกรีนให้ตรงใจก่อนผลิตเต็มล็อต',
+  },
+  {
+    question: 'รับงานปักโลโก้ไหม ต่างจากสกรีนอย่างไร?',
+    answer:
+      'รับงานปักด้วย งานปักให้สัมผัสพรีเมียมและทนทานมาก เหมาะกับโลโก้บนเสื้อโปโล แจ็คเก็ต และยูนิฟอร์มองค์กร ส่วนงานสกรีน/DTF เก็บรายละเอียดลายใหญ่และไล่เฉดสีได้ดีกว่าในต้นทุนที่ถูกกว่า เลือกตามชิ้นงานและภาพลักษณ์ที่ต้องการ',
+  },
+  {
+    question: 'เลือกไซซ์และทรงเสื้อได้แค่ไหน?',
+    answer:
+      'มีให้เลือกตั้งแต่ไซซ์เด็กถึงผู้ใหญ่ (S–5XL) หลายทรงทั้งคอกลม คอวี โอเวอร์ไซส์ และทรงเข้ารูป สั่งตัดแพทเทิร์นเฉพาะหรือปรับสัดส่วนตามต้องการได้สำหรับงานสั่งผลิต ทีมงานมีเสื้อตัวอย่างให้ลองไซซ์ก่อนสรุปแบบ',
+  },
+  {
+    question: 'ราคาเริ่มต้นเท่าไร คิดราคาอย่างไร?',
+    answer:
+      'ราคาต่อตัวขึ้นกับชนิดผ้า จำนวน เทคนิคงานพิมพ์ และจำนวนจุด/สีที่สกรีน ยิ่งสั่งจำนวนมากต้นทุนต่อตัวยิ่งลด ทุกงานมีใบเสนอราคาชัดเจนก่อนเริ่มผลิต ไม่มีค่าใช้จ่ายแอบแฝง และออกแบบให้ฟรี',
+  },
+  {
+    question: 'มีโปรโมชันหรือสิทธิพิเศษอะไรบ้าง?',
+    answer:
+      'ออกแบบฟรีทุกงาน, สกรีนฟรี 1 สี 1 จุด เมื่อสั่งผลิตครบ 100 ตัว และส่งฟรีในเขตกรุงเทพฯ เมื่อมียอดสั่งครบ 20,000 บาท พร้อมให้คำปรึกษาฟรีทุกขั้นตอน',
+  },
+  {
+    question: 'จัดส่งทั่วประเทศไหม คิดค่าส่งอย่างไร?',
+    answer:
+      'จัดส่งทั่วประเทศผ่านขนส่งมาตรฐาน ค่าส่งคิดตามน้ำหนักและปลายทาง ส่งฟรีในเขตกรุงเทพฯ เมื่อมียอดสั่งครบ 20,000 บาท ทีมงานแจ้งกำหนดส่งที่ชัดเจนพร้อมใบเสนอราคา',
+  },
+  {
+    question: 'ชำระเงินอย่างไร ต้องวางมัดจำไหม?',
+    answer:
+      'โดยทั่วไปวางมัดจำส่วนหนึ่งก่อนเริ่มผลิต และชำระส่วนที่เหลือเมื่องานเสร็จก่อนจัดส่ง รองรับการโอนผ่านธนาคาร เงื่อนไขการชำระและมัดจำที่แน่นอนจะระบุไว้ในใบเสนอราคาของแต่ละงาน',
+  },
+];
+
+const faqJsonLd = buildFaqJsonLd(faqItems);
+
+// Service JSON-LD
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: 'รับผลิตเสื้อ สกรีน และงานพิมพ์ผ้าครบวงจร',
+  name: 'บริการรับผลิตเสื้อครบวงจร',
+  description: SITE.description,
+  url: pageUrl,
+  provider: {
+    '@type': 'LocalBusiness',
+    '@id': orgId,
+    name: SITE.name,
+    legalName: 'บริษัท ธน พลัส 153 จำกัด',
+    alternateName: ['ธน พลัส 153', 'Thana Plus 153'],
+    image: new URL(logo.src, Astro.site).toString(),
+    url: Astro.site?.toString(),
+    telephone: SITE.contact.phone,
+    email: SITE.contact.email,
+    sameAs: [SITE.contact.lineLink],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '503 ถนนสุโขทัย แขวงสวนจิตรลดา',
+      addressLocality: 'เขตดุสิต',
+      addressRegion: 'กรุงเทพมหานคร',
+      postalCode: '10300',
+      addressCountry: 'TH',
+    },
+    priceRange: '$$',
+  },
+  areaServed: { '@type': 'Country', name: 'Thailand' },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'บริการรับผลิตเสื้อ',
+    itemListElement: SERVICES.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.title,
+        description: s.description,
+      },
+    })),
+  },
+};
+
+// Breadcrumb JSON-LD
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: Astro.site?.toString() },
+    { '@type': 'ListItem', position: 2, name: 'บริการของเรา', item: pageUrl },
+  ],
+};
+
+const jsonLd = [serviceJsonLd, breadcrumbJsonLd, ...(faqJsonLd ? [faqJsonLd] : [])];
+---
+
+<PageLayout
+  title="โรงงานผลิตเสื้อผ้า รับผลิตเสื้อครบวงจร สกรีน ออกแบบฟรี"
+  description="โรงงานผลิตเสื้อผ้าครบวงจร เสื้อแท้ รับผลิตเสื้อยืด โปโล แจ็คเก็ต ตั้งแต่เลือกผ้า ตัดเย็บ ออกแบบฟรี งานซิลค์สกรีนและ DTG/DTF พร้อมขอใบเสนอราคาฟรี"
+  jsonLd={jsonLd}
+  activePath="services"
+>
+  <!-- HERO -->
+  <section class="text-center pt-8 pb-16 relative overflow-hidden">
+    <p class="text-[0.65rem] font-bold tracking-[0.25em] uppercase text-[#3d4536] mb-3 reveal">Our Services</p>
+    <h1 class="text-4xl md:text-5xl font-normal tracking-tight text-[#242622] mb-6 relative z-10 font-serif reveal" style="transition-delay: 150ms">บริการการผลิตสิ่งทอครบวงจร</h1>
+    <p class="text-[#656a60] text-sm leading-relaxed max-w-[580px] mx-auto relative z-10 reveal" style="transition-delay: 300ms">ช่างตัดเย็บ ช่างออกแบบสกรีน และเทคโนโลยีพิมพ์ลายผ้าที่มีคุณภาพสูง มอบบริการและคำแนะนำที่เป็นมิตรในราคาควบคุมได้</p>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" class="pt-12 pb-16 border-t border-[#e5e3db] reveal scroll-mt-24">
+    <h2 class="text-2xl md:text-3xl font-normal tracking-tight text-[#242622] text-center mb-16 font-serif">ขั้นตอนการสั่งผลิตเสื้อผ้า</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div class="bg-white border border-[#e5e3db] p-8 relative hover:border-[#3d4536] transition-all reveal" style="transition-delay: 100ms">
+        <span class="absolute top-4 right-6 text-3xl font-serif font-bold text-[#3d4536]/10">01</span>
+        <h3 class="text-base font-bold text-[#242622] mb-3 mt-4">รับคำแนะนำ &amp; เสนอราคา</h3>
+        <p class="text-xs text-[#656a60] leading-relaxed">แจ้งความต้องการ สเปกผ้า รูปแบบการสกรีน และจำนวนที่ต้องการ เพื่อประเมินราคาได้อย่างแม่นยำภายในไม่กี่ชั่วโมง</p>
+      </div>
+      <div class="bg-white border border-[#e5e3db] p-8 relative hover:border-[#3d4536] transition-all reveal" style="transition-delay: 200ms">
+        <span class="absolute top-4 right-6 text-3xl font-serif font-bold text-[#3d4536]/10">02</span>
+        <h3 class="text-base font-bold text-[#242622] mb-3 mt-4">ขึ้นดีไซน์ Mockup ฟรี</h3>
+        <p class="text-xs text-[#656a60] leading-relaxed">ทีมกราฟิกช่วยออกแบบและจัดวางไฟล์โลโก้บนแบบจำลอง Mockup 3D ให้คุณเห็นภาพเสื้อจริงก่อนขึ้นตัวอย่าง</p>
+      </div>
+      <div class="bg-white border border-[#e5e3db] p-8 relative hover:border-[#3d4536] transition-all reveal" style="transition-delay: 300ms">
+        <span class="absolute top-4 right-6 text-3xl font-serif font-bold text-[#3d4536]/10">03</span>
+        <h3 class="text-base font-bold text-[#242622] mb-3 mt-4">ขึ้นงานตัวอย่าง</h3>
+        <p class="text-xs text-[#656a60] leading-relaxed">จัดทำตัวอย่างจริงสเปกผ้าสกรีนจริง (สำหรับออเดอร์จำนวนมาก) เพื่อการันตีความถูกต้องของแบบทั้งหมดก่อนผลิตเต็มล็อต</p>
+      </div>
+      <div class="bg-white border border-[#e5e3db] p-8 relative hover:border-[#3d4536] transition-all reveal" style="transition-delay: 400ms">
+        <span class="absolute top-4 right-6 text-3xl font-serif font-bold text-[#3d4536]/10">04</span>
+        <h3 class="text-base font-bold text-[#242622] mb-3 mt-4">ผลิต &amp; ส่งมอบ</h3>
+        <p class="text-xs text-[#656a60] leading-relaxed">ทีมงานดำเนินการถักทอตัดเย็บสกรีนภายใต้ระบบควบคุมมาตรฐาน QPC และทำการแพ็คพร้อมส่งมอบถึงสถานที่ตรงตามกำหนดนัดหมาย</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES SHOWCASE DETAILS -->
+  <section class="py-16 border-t border-[#e5e3db]">
+    <div class="flex flex-col gap-24">
+      
+      <!-- Detail 1 -->
+      <div id="t-shirts" class="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center scroll-mt-24">
+        <div class="h-[360px] overflow-hidden border border-[#e5e3db] bg-[#f4f3ee]">
+          <Image src={tshirtImg} alt="การผลิตเสื้อยืด" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col justify-center">
+          <h2 class="text-2xl md:text-3xl font-normal tracking-tight text-[#242622] mb-4 font-serif">งานตัดเย็บเสื้อยืดพรีเมียม</h2>
+          <p class="text-xs text-[#656a60] leading-relaxed mb-6">บริการรับผลิตเสื้อยืดคอกลม คอวี ทรงโอเวอร์ไซส์ และเสื้อยืดตามแพทเทิร์นเฉพาะของแบรนด์คุณ ด้วยเกรดเนื้อผ้าฝ้ายคอตตอนชั้นเยี่ยมและเทคนิคการถักทอแบบคู่ขนานที่ให้สัมผัสเย็นสบายเป็นพิเศษ</p>
+          <div class="border-t border-[#e5e3db] pt-4">
+            <div class="grid grid-cols-2 gap-4 text-xs py-2 border-b border-[#e5e3db]/50"><span class="text-[#9b9f96] font-bold">เกรดผ้าแนะนำ</span><span class="text-[#242622] font-semibold">Cotton 100% (Comb No. 20, 30, 32, 40) / ผ้า CVC</span></div>
+            <div class="grid grid-cols-2 gap-4 text-xs py-2 border-b border-[#e5e3db]/50"><span class="text-[#9b9f96] font-bold">ขั้นต่ำการผลิต</span><span class="text-[#242622] font-semibold">งานสกรีนด่วนเริ่มที่ 20 ตัว / งานตัดเย็บที่ 100 ตัว</span></div>
+            <div class="grid grid-cols-2 gap-4 text-xs py-2"><span class="text-[#9b9f96] font-bold">ตัวเลือกป้ายคอ</span><span class="text-[#242622] font-semibold">รับป้ายทอ Woven label / การสกรีนฉลากโลโก้ติดคอเสื้อตรง</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail 2 -->
+      <div id="polo" class="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center scroll-mt-24">
+        <div class="h-[360px] overflow-hidden border border-[#e5e3db] bg-[#f4f3ee] lg:order-2">
+          <Image src={poloImg} alt="การผลิตเสื้อโปโล" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col justify-center lg:order-1">
+          <h2 class="text-2xl md:text-3xl font-normal tracking-tight text-[#242622] mb-4 font-serif">เสื้อโปโลและชุดยูนิฟอร์มบริษัท</h2>
+          <p class="text-xs text-[#656a60] leading-relaxed mb-6">ยกระดับภาพลักษณ์ขององค์กรหรือทีมงานด้วยเสื้อโปโลคุณภาพสูง ที่เน้นคอปกแข็งแรงไม่ย้วยง่าย และตะเข็บด้านหลังเรียบสม่ำเสมอ ผสมผสานระบบลายปักไหมคอมพิวเตอร์ที่หนาและคมชัดที่สุด</p>
+          <div class="border-t border-[#e5e3db] pt-4">
+            <div class="grid grid-cols-2 gap-4 text-xs py-2 border-b border-[#e5e3db]/50"><span class="text-[#9b9f96] font-bold">เกรดผ้าแนะนำ</span><span class="text-[#242622] font-semibold">ผ้าจุติ (Juti Cotton-Poly Mix) / ผ้า Kaneko / ผ้ารังผึ้งไมโคร</span></div>
+            <div class="grid grid-cols-2 gap-4 text-xs py-2 border-b border-[#e5e3db]/50"><span class="text-[#9b9f96] font-bold">ระบบการแต่งตกแต่ง</span><span class="text-[#242622] font-semibold">การปักโลโก้ด้วยไหมพรีเมียม / การพิมพ์สกรีนสีกึ่งยางดึงยืด</span></div>
+            <div class="grid grid-cols-2 gap-4 text-xs py-2"><span class="text-[#9b9f96] font-bold">จุดเด่นการจัดทำ</span><span class="text-[#242622] font-semibold">มีผ้าตัวอย่างสีกว่า 50 เฉดสีให้เลือกพร้อมการปรับทรงเฉพาะตัว</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detail 3 -->
+      <div id="screen" class="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-16 items-center scroll-mt-24">
+        <div class="h-[360px] overflow-hidden border border-[#e5e3db] bg-[#f4f3ee]">
+          <Image src={silkScreenImg} alt="เทคนิคการพิมพ์สกรีน" class="w-full h-full object-cover" />
+        </div>
+        <div class="flex flex-col justify-center">
+          <h2 class="text-2xl md:text-3xl font-normal tracking-tight text-[#242622] mb-4 font-serif">การพิมพ์สกรีนและการพิมพ์แบบดิจิทัล</h2>
+          <p class="text-xs text-[#656a60] leading-relaxed mb-6">ไม่ว่างานออกแบบของคุณจะเรียบง่ายเพียง 1 สี หรือภาพพิมพ์สีน้ำมันสีสันฉูดฉาดระบบไล่เฉดสีระดับสูง เรามีระบบเครื่องจักรพิมพ์ตรง (DTG), ฟิล์มความร้อน (DFT) และการขึงบล็อกซิลค์สกรีนที่รองรับครบวงจร</p>
+          <div class="border-t border-[#e5e3db] pt-4">
+            <div class="grid grid-cols-2 gap-4 text-xs py-2 border-b border-[#e5e3db]/50"><span class="text-[#9b9f96] font-bold">บล็อกซิลค์สกรีน</span><span class="text-[#242622] font-semibold">สีน้ำยางสด ทนความร้อนสูง เหมาะสำหรับลายสกรีนบล็อกใหญ่ล็อตใหญ่</span></div>
+            <div class="grid grid-cols-2 gap-4 text-xs py-2 border-b border-[#e5e3db]/50"><span class="text-[#9b9f96] font-bold">ระบบ DFT / DTG</span><span class="text-[#242622] font-semibold">สีหมึกพิมพ์สิ่งทอระบบนิเวศญี่ปุ่น ปราศจากสารระคายเคือง ลายคมจัดชัดเจน</span></div>
+            <div class="grid grid-cols-2 gap-4 text-xs py-2"><span class="text-[#9b9f96] font-bold">งานรีดความร้อน</span><span class="text-[#242622] font-semibold">ระบบฟอยล์เงิน/ทอง เมทัลลิคส่องสว่างสะท้อนประกายมีราคา</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQAccordion -->
+  <div id="faq" class="scroll-mt-24">
+    <Faq
+      items={faqItems}
+      title="คำถามที่พบบ่อยเกี่ยวกับบริการ"
+      class="py-16 border-t border-[#e5e3db]"
+    />
+  </div>
+
+  <!-- CONTACT FORM -->
+  <section class="pt-16 pb-20 border-t border-[#e5e3db]" id="contact">
+    <div class="max-w-[800px] mx-auto bg-white border border-[#e5e3db] p-8 md:p-14 shadow-sm">
+      <h2 class="text-2xl md:text-3xl font-normal text-[#242622] tracking-tight mb-4 text-center font-serif">ติดต่อประเมินราคา &amp; ขอคำปรึกษา</h2>
+      <p class="text-xs text-[#656a60] text-center mb-10 leading-relaxed">กรอกข้อมูลความต้องการผลิตเสื้อผ้าด้านล่าง ทีมผู้เชี่ยวชาญจะติดต่อกลับเพื่อให้ข้อมูลราคาและส่งรูป Mockup ในวันเดียวกัน</p>
+      
+      <form action="#" onsubmit="alert('ขอขอบคุณสำหรับข้อมูล ทีมงานจะรีบติดต่อกลับภายใน 2 ชั่วโมงทำการครับ!'); return false;">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col">
+            <label for="name" class="text-[0.65rem] font-bold uppercase tracking-wider text-[#9b9f96] mb-2">ชื่อผู้ติดต่อ / แบรนด์</label>
+            <input type="text" id="name" required placeholder="เช่น คุณธนกร / Thanabrand" class="border border-[#e5e3db] bg-[#faf9f6] px-4 py-3 text-sm focus:border-[#3d4536] focus:outline-none transition-colors text-[#242622]" />
+          </div>
+          <div class="flex flex-col">
+            <label for="phone" class="text-[0.65rem] font-bold uppercase tracking-wider text-[#9b9f96] mb-2">เบอร์โทรศัพท์ติดต่อ</label>
+            <input type="tel" id="phone" required placeholder="เช่น 090-xxx-xxxx" class="border border-[#e5e3db] bg-[#faf9f6] px-4 py-3 text-sm focus:border-[#3d4536] focus:outline-none transition-colors text-[#242622]" />
+          </div>
+          <div class="flex flex-col">
+            <label for="lineid" class="text-[0.65rem] font-bold uppercase tracking-wider text-[#9b9f96] mb-2">LINE ID (ติดต่อรับแบบประเมินราคา)</label>
+            <input type="text" id="lineid" placeholder="เช่น @thanaplus หรือ thana123" class="border border-[#e5e3db] bg-[#faf9f6] px-4 py-3 text-sm focus:border-[#3d4536] focus:outline-none transition-colors text-[#242622]" />
+          </div>
+          <div class="flex flex-col">
+            <label for="type" class="text-[0.65rem] font-bold uppercase tracking-wider text-[#9b9f96] mb-2">ประเภทสินค้าที่ต้องการสั่ง</label>
+            <select id="type" class="border border-[#e5e3db] bg-[#faf9f6] px-4 py-3 text-sm focus:border-[#3d4536] focus:outline-none transition-colors text-[#242622]">
+              <option value="tshirt">เสื้อยืดคอกลม / คอวี</option>
+              <option value="polo">เสื้อโปโลปัก / ยูนิฟอร์ม</option>
+              <option value="sportswear">ชุดกีฬาพิมพ์ลาย</option>
+              <option value="other">อื่น ๆ (แจ็คเก็ต / กระเป๋าผ้า)</option>
+            </select>
+          </div>
+          <div class="flex flex-col md:col-span-2">
+            <label for="qty" class="text-[0.65rem] font-bold uppercase tracking-wider text-[#9b9f96] mb-2">จำนวนออเดอร์ที่คาดการณ์</label>
+            <input type="text" id="qty" required placeholder="เช่น 50 ตัว, 100 ตัว หรือ 1,000 ตัว" class="border border-[#e5e3db] bg-[#faf9f6] px-4 py-3 text-sm focus:border-[#3d4536] focus:outline-none transition-colors text-[#242622]" />
+          </div>
+          <div class="flex flex-col md:col-span-2">
+            <label for="details" class="text-[0.65rem] font-bold uppercase tracking-wider text-[#9b9f96] mb-2">รายละเอียดและข้อความเพิ่มเติม</label>
+            <textarea id="details" rows="5" placeholder="แจ้งข้อมูลเนื้อผ้า สีเสื้อ จุดการปักหรือสกรีนที่ต้องการเพิ่มเติม..." class="border border-[#e5e3db] bg-[#faf9f6] px-4 py-3 text-sm focus:border-[#3d4536] focus:outline-none transition-colors text-[#242622]"></textarea>
+          </div>
+          <button type="submit" class="md:col-span-2 bg-[#3d4536] hover:bg-[#5f6a55] text-white py-4 text-xs font-bold uppercase tracking-widest transition-colors">ส่งข้อมูลติดต่อกลับ</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</PageLayout>

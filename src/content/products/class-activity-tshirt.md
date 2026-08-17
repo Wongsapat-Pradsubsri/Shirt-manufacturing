@@ -1,0 +1,27 @@
+---
+title: "Group Activity T-Shirt"
+description: "เสื้อยืดกิจกรรมกลุ่มและเสื้อรุ่น ตัดเย็บจากผ้า TC/TK ทนทาน คุ้มราคาสำหรับการสั่งผลิตจำนวนมาก"
+price: 220
+image: "../../assets/home/class_tshirt.png"
+imageAlt: "กองเสื้อยืดกิจกรรมกลุ่มหลากสี ตัวอย่างงานรับผลิตจากโรงงานเสื้อแท้"
+gallery: 
+  - "../../assets/home/class_tshirt.png"
+  - "../../assets/blogs/university-class-shirt-production-opportunity-2026.png"
+  - "../../assets/blogs/tpop-fan-merch-custom-shirt-opportunity-2026.png"
+  - "../../assets/blogs/เช็กลิสต์ผลิตเสื้อล็อตแรก.png"
+colors: ["#FFFFFF", "#1E3A8A", "#B91C1C", "#FBBF24"]
+sizes: ["S", "M", "L", "XL"]
+tags: ["t-shirt", "activity", "bulk"]
+featured: false
+inStock: true
+publishedAt: "2026-05-28T10:00:00Z"
+---
+
+## ทางเลือกที่คุ้มค่าที่สุดสำหรับกิจกรรมกลุ่ม
+
+**Group Activity T-Shirt** เป็นเสื้อยืดรุ่นประหยัดที่เน้นความทนทานและการพิมพ์ลายสีสด เหมาะมากสำหรับเสื้อกีฬาสี เสื้อทีมจัดกิจกรรม หรือค่ายเยาวชนต่าง ๆ
+
+### คุณสมบัติเด่น
+- **ผ้า TC/TK คัดเกรด**: ยับยาก ไม่หดตัว ซักตากง่ายแห้งไว
+- **ราคาประหยัดต่อตัวต่ำ**: คุ้มทุนสูงสุดสำหรับการผลิตจำนวนมาก
+- **รองรับทุกงานพิมพ์สกรีน**: ขึงบล็อกแน่นหนา สีกึ่งยางสดใส

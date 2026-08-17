@@ -1,0 +1,155 @@
+---
+// Base layout — ใช้เป็นโครงหลักของทุกหน้า
+import '@/styles/global.css';
+import SEO from '@/components/SEO.astro';
+import { SITE } from '@/consts';
+import favicon from '@/assets/favicon.png';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, image, type, noindex, jsonLd } = Astro.props;
+---
+
+<!doctype html>
+<html lang={SITE.lang} class="motion-safe:scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" href={favicon.src} />
+    <meta name="generator" content={Astro.generator} />
+    {/* Analytics: Ahrefs — async + preconnect (สคริปต์เบา โหลด early ได้, ช่วย LCP ~150ms) */}
+    <link rel="preconnect" href="https://analytics.ahrefs.com" crossorigin />
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="qtnb/p0ltu4tTRRtzqv54g" async></script>
+    {/* Google tag (gtag.js) — เลื่อนโหลดจนผู้ใช้ interact ครั้งแรกหรือเมื่อ idle
+        เพื่อลด main-thread work / TBT ตอนโหลดหน้า */}
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        // eslint-disable-next-line prefer-rest-params -- สคริปต์ gtag มาตรฐานของ Google ต้อง push `arguments` (เปลี่ยนเป็น rest params จะพัง GA)
+        dataLayer.push(arguments);
+      }
+      function loadGtag() {
+        if (window.__gtagLoaded) return;
+        window.__gtagLoaded = true;
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LHS945KVZM';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-LHS945KVZM');
+      }
+      ['scroll', 'pointerdown', 'keydown', 'touchstart'].forEach(function (evt) {
+        addEventListener(evt, loadGtag, { once: true, passive: true });
+      });
+      if (window.requestIdleCallback) {
+        requestIdleCallback(loadGtag, { timeout: 5000 });
+      } else {
+        setTimeout(loadGtag, 5000);
+      }
+    </script>
+
+    {/* Microsoft Clarity — heatmaps + session recordings (โหลด async เอง ไม่บล็อก render) */}
+    <link rel="preconnect" href="https://www.clarity.ms" crossorigin />
+    <script is:inline>
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            // eslint-disable-next-line prefer-rest-params -- โค้ด snippet มาตรฐานของ Microsoft Clarity ต้อง push `arguments` (เปลี่ยนเป็น rest params เสี่ยง queue event พัง)
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'x5q5tvdd8n');
+    </script>
+
+    {/* RSS feed discovery */}
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE.name}
+      href={new URL('rss.xml', Astro.site)}
+    />
+
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      noindex={noindex}
+      jsonLd={jsonLd}
+    />
+  </head>
+  <body class="min-h-screen bg-background text-foreground antialiased">
+    <slot />
+
+    <!-- Floating Back to Top Button -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-6 right-6 z-40 w-11 h-11 bg-white border border-[#e5e3db] text-[#3d4536] flex items-center justify-center rounded-full shadow-md cursor-pointer hover:bg-[#3d4536] hover:text-white hover:border-[#3d4536] transition-all duration-300 translate-y-16 opacity-0 pointer-events-none"
+      aria-label="Back to top"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+
+    {/* Scroll Reveal & Back to Top Engine */}
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Scroll Reveal Observer
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px 0px -8% 0px',
+          threshold: 0.05
+        };
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        const elements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+        elements.forEach(el => revealObserver.observe(el));
+
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+          const toggleBackToTop = () => {
+            if (window.scrollY > 400) {
+              backToTopBtn.classList.remove('translate-y-16', 'opacity-0', 'pointer-events-none');
+              backToTopBtn.classList.add('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            } else {
+              backToTopBtn.classList.add('translate-y-16', 'opacity-0', 'pointer-events-none');
+              backToTopBtn.classList.remove('translate-y-0', 'opacity-100', 'pointer-events-auto');
+            }
+          };
+
+          window.addEventListener('scroll', toggleBackToTop, { passive: true });
+          
+          backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          });
+          
+          // Initial trigger
+          toggleBackToTop();
+        }
+      });
+    </script>
+  </body>
+</html>

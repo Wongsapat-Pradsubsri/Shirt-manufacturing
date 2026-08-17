@@ -1,0 +1,192 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  images?: ImageMetadata[];
+  altPrefix?: string;
+}
+
+const { images = [], altPrefix = 'Product image' } = Astro.props;
+
+if (images.length === 0) {
+  return null;
+}
+
+// Slice to maximum of 3 images as requested
+const displayImages = images.slice(0, 3);
+---
+
+<div class="mt-16 w-full relative group/gallery">
+  <!-- Prev/Next buttons for desktop navigation -->
+  <button id="slide-prev" class="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/90 backdrop-blur-md border border-[#e6e2da] shadow-md flex items-center justify-center text-[#3d4536] hover:bg-[#3d4536] hover:text-white transition-all cursor-pointer opacity-0 md:group-hover/gallery:opacity-100 transition-opacity duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+  
+  <button id="slide-next" class="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-white/90 backdrop-blur-md border border-[#e6e2da] shadow-md flex items-center justify-center text-[#3d4536] hover:bg-[#3d4536] hover:text-white transition-all cursor-pointer opacity-0 md:group-hover/gallery:opacity-100 transition-opacity duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+
+  <!-- Slider track with CSS scroll snap -->
+  <div id="gallery-track" class="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none scroll-smooth pb-4 px-1">
+    {displayImages.map((img, index) => (
+      <div class="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)] shrink-0 snap-start snap-always">
+        <div class="group relative overflow-hidden border border-[#e6e2da] bg-[#f4f2ee] cursor-zoom-in gallery-item rounded-2xl shadow-sm hover:shadow-md transition-shadow aspect-[3/4]">
+          <Image
+            src={img}
+            alt={`${altPrefix} - View ${index + 1}`}
+            width={1200}
+            height={1600}
+            class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-103"
+            loading={index < 2 ? "eager" : "lazy"}
+            fetchpriority={index === 0 ? "high" : "auto"}
+          />
+          <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 pointer-events-none" />
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+{/* Lightbox Modal */}
+<dialog id="lightbox" class="backdrop:bg-black/90 bg-transparent p-0 m-auto max-w-[100vw] max-h-[100vh] w-full h-full rounded-none border-none outline-none overflow-hidden text-white flex-col items-center justify-center cursor-zoom-out">
+  <div class="relative w-full h-full flex items-center justify-center p-4 md:p-8">
+    <button id="lightbox-close" class="absolute top-4 right-4 md:top-8 md:right-8 z-50 p-2 bg-black/50 hover:bg-black/80 rounded-full transition-colors cursor-pointer text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <img id="lightbox-img" src="" alt="Fullscreen image" class="max-w-full max-h-full object-contain pointer-events-none" />
+  </div>
+</dialog>
+
+<script>
+  function setupGallery() {
+    const galleryItems = document.querySelectorAll('.gallery-item img');
+    const lightbox = document.getElementById('lightbox') as HTMLDialogElement;
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const closeBtn = document.getElementById('lightbox-close');
+
+    // Lightbox modal logic
+    if (lightbox && lightboxImg) {
+      lightbox.addEventListener('show', () => {
+        lightbox.style.display = 'flex';
+      });
+
+      galleryItems.forEach(img => {
+        img.addEventListener('click', (e) => {
+          const target = e.target as HTMLImageElement;
+          lightboxImg.src = target.src;
+          lightboxImg.alt = target.alt;
+          
+          lightbox.showModal();
+          lightbox.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      const closeLightbox = () => {
+        lightbox.close();
+        lightbox.style.display = 'none';
+        document.body.style.overflow = '';
+        setTimeout(() => { lightboxImg.src = ''; }, 300);
+      };
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || (e.target as HTMLElement).closest('.relative')) {
+           if (e.target !== closeBtn && !(e.target as HTMLElement).closest('#lightbox-close')) {
+             closeLightbox();
+           }
+        }
+      });
+
+      closeBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeLightbox();
+      });
+    }
+
+    // Slider controls logic
+    const track = document.getElementById('gallery-track');
+    const prevBtn = document.getElementById('slide-prev');
+    const nextBtn = document.getElementById('slide-next');
+
+    if (track && prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+      });
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+      });
+
+      const updateButtons = () => {
+        const scrollLeft = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        
+        if (maxScroll <= 5) {
+          prevBtn.classList.add('hidden');
+          nextBtn.classList.add('hidden');
+          return;
+        } else {
+          prevBtn.classList.remove('hidden');
+          nextBtn.classList.remove('hidden');
+        }
+
+        if (scrollLeft <= 5) {
+          prevBtn.style.opacity = '0.2';
+          prevBtn.style.pointerEvents = 'none';
+        } else {
+          prevBtn.style.opacity = '1';
+          prevBtn.style.pointerEvents = 'auto';
+        }
+
+        if (scrollLeft >= maxScroll - 5) {
+          nextBtn.style.opacity = '0.2';
+          nextBtn.style.pointerEvents = 'none';
+        } else {
+          nextBtn.style.opacity = '1';
+          nextBtn.style.pointerEvents = 'auto';
+        }
+      };
+
+      track.addEventListener('scroll', updateButtons);
+      window.addEventListener('resize', updateButtons);
+      setTimeout(updateButtons, 200);
+    }
+  }
+
+  // Run on first load and after Astro page transitions
+  document.addEventListener('astro:page-load', setupGallery);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupGallery);
+  } else {
+    setupGallery();
+  }
+</script>
+
+<style>
+  /* Hides scrollbars for slide track */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  dialog::backdrop {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  dialog[open] {
+    animation: fadeZoom 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  @keyframes fadeZoom {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>

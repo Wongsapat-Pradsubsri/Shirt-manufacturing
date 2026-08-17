@@ -1,0 +1,256 @@
+---
+import { Image } from 'astro:assets';
+
+// นำเข้าภาพประกอบสเปกสินค้าหลัก
+import tshirtImg from '@/assets/home/T-Shirts_Collection.png';
+import poloImg from '@/assets/home/Polo-Shirts_Collection.png';
+import sportswearImg from '@/assets/home/Sportswear_Collection.png';
+---
+
+<section class="py-24 pb-36 max-w-[1200px] mx-auto px-6 overflow-hidden">
+  
+  <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-[#e5e3db]/80 reveal">
+    <div>
+      <p class="text-[0.65rem] font-bold tracking-[0.25em] uppercase text-[#3d4536] mb-2">Collections</p>
+      <h2 class="text-3xl font-normal tracking-tight text-[#242622] font-serif">หมวดหมู่เสื้อผ้าสั่งทำ</h2>
+    </div>
+    <a href="/products/" class="text-[0.7rem] font-bold tracking-widest uppercase text-[#3d4536] no-underline border-b border-[#3d4536]/20 pb-0.5 hover:border-[#3d4536] transition-colors mt-4 md:mt-0">
+      ดูแคตตาล็อกสินค้าทั้งหมด →
+    </a>
+  </div>
+
+  <!-- Premium Asymmetric 3D Cover Flow Carousel -->
+  <div id="collections-carousel" class="relative w-full max-w-[900px] h-[520px] md:h-[580px] mx-auto flex items-center justify-center mt-12 reveal">
+    
+    <!-- Item 1: เสื้อยืด -->
+    <div class="carousel-card flex flex-col no-underline text-[#242622] group bg-white border border-[#e5e3db]/60 p-3 rounded-none transition-all duration-300" data-index="0">
+      <a href="/products/" class="block relative overflow-hidden bg-[#f4f3ee] h-[78%] rounded-none">
+        <span class="absolute top-4 left-4 bg-[#faf9f6]/95 border border-[#3d4536]/20 text-[#3d4536] px-2.5 py-1 text-[0.62rem] font-mono tracking-widest font-bold z-10 rounded-none shadow-sm">01 / T-SHIRT</span>
+        <Image src={tshirtImg} alt="เสื้อยืดสกรีนลาย" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      </a>
+      <div class="mt-4 px-1">
+        <h3 class="text-[0.78rem] font-bold uppercase tracking-widest text-[#242622] group-hover:text-[#3d4536] transition-colors duration-300 mb-1.5">เสื้อยืดสกรีนลาย</h3>
+        <p class="text-[0.65rem] text-[#656a60] leading-relaxed pt-2 border-t border-[#e5e3db]/80">งานตัดเย็บคุณภาพสกรีนลายคมชัดและคงทน</p>
+      </div>
+    </div>
+
+    <!-- Item 2: เสื้อโปโล -->
+    <div class="carousel-card flex flex-col no-underline text-[#242622] group bg-white border border-[#e5e3db]/60 p-3 rounded-none transition-all duration-300" data-index="1">
+      <a href="/products/" class="block relative overflow-hidden bg-[#f4f3ee] h-[78%] rounded-none">
+        <span class="absolute top-4 left-4 bg-[#faf9f6]/95 border border-[#3d4536]/20 text-[#3d4536] px-2.5 py-1 text-[0.62rem] font-mono tracking-widest font-bold z-10 rounded-none shadow-sm">02 / POLO</span>
+        <Image src={poloImg} alt="เสื้อโปโลปักโลโก้" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      </a>
+      <div class="mt-4 px-1">
+        <h3 class="text-[0.78rem] font-bold uppercase tracking-widest text-[#242622] group-hover:text-[#3d4536] transition-colors duration-300 mb-1.5">เสื้อโปโลและปกคอ</h3>
+        <p class="text-[0.65rem] text-[#656a60] leading-relaxed pt-2 border-t border-[#e5e3db]/80">เนื้อผ้าพรีเมียมคอปกแข็งแรงพร้อมงานปักละเอียด</p>
+      </div>
+    </div>
+
+    <!-- Item 3: ชุดกีฬา -->
+    <div class="carousel-card flex flex-col no-underline text-[#242622] group bg-white border border-[#e5e3db]/60 p-3 rounded-none transition-all duration-300" data-index="2">
+      <a href="/products/" class="block relative overflow-hidden bg-[#f4f3ee] h-[78%] rounded-none">
+        <span class="absolute top-4 left-4 bg-[#faf9f6]/95 border border-[#3d4536]/20 text-[#3d4536] px-2.5 py-1 text-[0.62rem] font-mono tracking-widest font-bold z-10 rounded-none shadow-sm">03 / ACTIVE</span>
+        <Image src={sportswearImg} alt="ชุดกีฬา" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+      </a>
+      <div class="mt-4 px-1">
+        <h3 class="text-[0.78rem] font-bold uppercase tracking-widest text-[#242622] group-hover:text-[#3d4536] transition-colors duration-300 mb-1.5">ชุดกีฬาสกรีนระเหิด</h3>
+        <p class="text-[0.65rem] text-[#656a60] leading-relaxed pt-2 border-t border-[#e5e3db]/80">ผ้าไมโครพิมพ์ลายซับลิเมชันระบายอากาศได้ดี</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Carousel Navigation Controls -->
+  <div class="flex items-center justify-center gap-8 mt-12 reveal" style="transition-delay: 150ms">
+    <!-- Prev Button - Minimalist Circular Outline -->
+    <button id="carousel-prev" class="w-11 h-11 rounded-full border border-[#3d4536]/30 flex items-center justify-center text-[#3d4536] hover:border-[#3d4536] hover:bg-[#3d4536] hover:text-white transition-all duration-300 cursor-pointer group" aria-label="ก่อนหน้า">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:-translate-x-0.5 transition-transform duration-300"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </button>
+    
+    <!-- Dots indicator (Sleek Circle / Pill Expansion) -->
+    <div class="flex items-center gap-3" id="carousel-dots">
+      <button class="w-2.5 h-2.5 rounded-full border border-[#3d4536]/40 transition-all duration-300 cursor-pointer dot-btn" data-dot="0" aria-label="สไลด์ 1"></button>
+      <button class="w-2.5 h-2.5 rounded-full border border-[#3d4536]/40 transition-all duration-300 cursor-pointer dot-btn" data-dot="1" aria-label="สไลด์ 2"></button>
+      <button class="w-2.5 h-2.5 rounded-full border border-[#3d4536]/40 transition-all duration-300 cursor-pointer dot-btn" data-dot="2" aria-label="สไลด์ 3"></button>
+    </div>
+
+    <!-- Next Button - Minimalist Circular Outline -->
+    <button id="carousel-next" class="w-11 h-11 rounded-full border border-[#3d4536]/30 flex items-center justify-center text-[#3d4536] hover:border-[#3d4536] hover:bg-[#3d4536] hover:text-white transition-all duration-300 cursor-pointer group" aria-label="ถัดไป">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transform group-hover:translate-x-0.5 transition-transform duration-300"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+  </div>
+
+</section>
+
+<style>
+  .carousel-card {
+    position: absolute;
+    width: 320px;
+    height: 520px;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .carousel-card[data-pos="0"] {
+    transform: translateX(0) scale(1.06);
+    z-index: 30;
+    opacity: 1;
+    filter: none;
+    pointer-events: auto;
+    box-shadow: 0 20px 40px rgba(74, 83, 67, 0.05);
+  }
+
+  .carousel-card[data-pos="-1"] {
+    transform: translateX(-56%) scale(0.85);
+    z-index: 10;
+    opacity: 0.65;
+    filter: grayscale(15%) brightness(70%) blur(0.5px);
+    cursor: pointer;
+  }
+
+  .carousel-card[data-pos="1"] {
+    transform: translateX(56%) scale(0.85);
+    z-index: 10;
+    opacity: 0.65;
+    filter: grayscale(15%) brightness(70%) blur(0.5px);
+    cursor: pointer;
+  }
+
+  /* Sleek Dot Styling */
+  .dot-btn {
+    background-color: transparent;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .dot-btn.active-dot {
+    background-color: #3d4536;
+    border-color: #3d4536;
+    width: 24px; /* Expand to horizontal pill shape */
+  }
+
+  /* Responsive styling */
+  @media (max-width: 768px) {
+    .carousel-card {
+      width: 240px;
+      height: 400px;
+    }
+    .carousel-card[data-pos="-1"] {
+      transform: translateX(-36%) scale(0.85);
+    }
+    .carousel-card[data-pos="1"] {
+      transform: translateX(36%) scale(0.85);
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.carousel-card');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
+    const dots = document.querySelectorAll('#carousel-dots button');
+    const carouselContainer = document.getElementById('collections-carousel');
+    
+    if (!cards.length) return;
+
+    let activeIndex = 1; // Polo is default active center card
+    const total = cards.length;
+    let autoplayTimer = null;
+    const autoplayInterval = 4000; // Slide every 4 seconds
+
+    function updateCarousel() {
+      cards.forEach((card, idx) => {
+        // Calculate relative position (-1, 0, 1)
+        let pos = idx - activeIndex;
+        
+        // Handle wrapping for circular array
+        if (pos < -1) pos += total;
+        if (pos > 1) pos -= total;
+
+        card.setAttribute('data-pos', pos.toString());
+        
+        if (Math.abs(pos) > 1) {
+          card.style.visibility = 'hidden';
+          card.style.pointerEvents = 'none';
+        } else {
+          card.style.visibility = 'visible';
+          card.style.pointerEvents = 'auto';
+        }
+      });
+
+      // Update dots active class
+      dots.forEach((dot, idx) => {
+        if (idx === activeIndex) {
+          dot.classList.add('active-dot');
+        } else {
+          dot.classList.remove('active-dot');
+        }
+      });
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayTimer = setInterval(() => {
+        activeIndex = (activeIndex + 1) % total;
+        updateCarousel();
+      }, autoplayInterval);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    function resetAutoplay() {
+      startAutoplay();
+    }
+
+    // Event listeners for side clicks
+    cards.forEach((card, idx) => {
+      card.addEventListener('click', (e) => {
+        const pos = parseInt(card.getAttribute('data-pos') || '0');
+        if (pos !== 0) {
+          e.preventDefault(); // Stop link navigation if not centered
+          activeIndex = idx;
+          updateCarousel();
+          resetAutoplay();
+        }
+      });
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      activeIndex = (activeIndex - 1 + total) % total;
+      updateCarousel();
+      resetAutoplay();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+      activeIndex = (activeIndex + 1) % total;
+      updateCarousel();
+      resetAutoplay();
+    });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        activeIndex = idx;
+        updateCarousel();
+        resetAutoplay();
+      });
+    });
+
+    // Pause autoplay on hover
+    carouselContainer?.addEventListener('mouseenter', stopAutoplay);
+    carouselContainer?.addEventListener('mouseleave', startAutoplay);
+
+    // Initialize
+    updateCarousel();
+    startAutoplay();
+  });
+</script>

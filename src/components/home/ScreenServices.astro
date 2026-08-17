@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+
+// นำเข้าไฟล์ภาพจริงสำหรับประกอบสัดส่วน
+import silkScreen from '@/assets/home/ScreenServices/Silk Screen.png';
+import dftDtg from '@/assets/home/ScreenServices/DFT_DTG.png';
+import sublimation from '@/assets/home/ScreenServices/Sublimation.png';
+---
+
+<section id="screen" class="scroll-mt-24 pt-20 pb-16 border-y border-[#e5e3db]/60 bg-[#e4e7e0] relative">
+  <div class="max-w-[1200px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-24 items-start relative z-10">
+    
+    <!-- Left Column: Minimalist Flat Sticky Header Card -->
+    <div class="lg:sticky lg:top-[120px] h-fit bg-[#faf9f6] border border-[#e5e3db]/80 p-8 rounded-none shadow-none reveal-left">
+      <p class="text-[0.65rem] font-bold tracking-[0.25em] uppercase text-[#3d4536] mb-3">Methods</p>
+      <h2 class="text-3xl font-normal tracking-tight text-[#242622] mb-6 font-serif leading-tight">
+        เทคโนโลยีงานพิมพ์<br />และการลงสีผ้า
+      </h2>
+      <p class="text-[#656a60] text-xs leading-relaxed mb-8 max-w-[280px]">
+        เราเลือกใช้นวัตกรรมสกรีนที่เหมาะสมกับเนื้อผ้าและงานออกแบบของคุณ เพื่อผลลัพธ์สีสด ลายสกรีนทนทานแน่นหนา
+      </p>
+      <a href="/services/#screen" class="inline-flex items-center gap-2 text-[0.7rem] font-bold tracking-widest uppercase text-[#3d4536] no-underline border-b border-[#3d4536]/40 pb-0.5 hover:border-[#3d4536] hover:text-[#5f6a55] transition-colors">
+        รายละเอียดเทคนิคทั้งหมด →
+      </a>
+    </div>
+
+    <!-- Right Column: Clean Rows with Sharp Corners -->
+    <div class="flex flex-col gap-12">
+      
+      <!-- System 1 -->
+      <div class="grid grid-cols-1 sm:grid-cols-[0.85fr_1.15fr] gap-8 items-center border-b border-[#e5e3db]/60 pb-12 reveal-right">
+        <div class="h-[200px] overflow-hidden border border-[#e5e3db]/60 bg-[#f4f3ee] rounded-none group">
+          <Image src={silkScreen} alt="ซิลค์สกรีน (Silk Screen)" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102" />
+        </div>
+        <div class="pl-2">
+          <div class="text-[0.62rem] font-bold tracking-widest text-[#3d4536] mb-2 flex items-center gap-2">
+            SYSTEM 01 <span class="w-4 h-[1px] bg-[#d0ba99]"></span>
+          </div>
+          <h3 class="text-sm font-bold uppercase tracking-wider mb-2 text-[#242622]">ซิลค์สกรีน (Silk Screen)</h3>
+          <p class="text-xs text-[#656a60] leading-relaxed">
+            บล็อกขึงสีดั้งเดิม ให้สีสด คมหนา ติดแน่น เหมาะกับจำนวนตัวสั่งสกรีนมาก ลายสกรีนสีไม่ซับซ้อน ได้ราคาคุ้มทุนที่สุด
+          </p>
+        </div>
+      </div>
+
+      <!-- System 2 -->
+      <div class="grid grid-cols-1 sm:grid-cols-[0.85fr_1.15fr] gap-8 items-center border-b border-[#e5e3db]/60 pb-12 reveal-right" style="transition-delay: 150ms">
+        <div class="h-[200px] overflow-hidden border border-[#e5e3db]/60 bg-[#f4f3ee] rounded-none group">
+          <Image src={dftDtg} alt="Digital Print" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102" />
+        </div>
+        <div class="pl-2">
+          <div class="text-[0.62rem] font-bold tracking-widest text-[#3d4536] mb-2 flex items-center gap-2">
+            SYSTEM 02 <span class="w-4 h-[1px] bg-[#d0ba99]"></span>
+          </div>
+          <h3 class="text-sm font-bold uppercase tracking-wider mb-2 text-[#242622]">งานสกรีนดิจิทัล (DFT / DTG)</h3>
+          <p class="text-xs text-[#656a60] leading-relaxed">
+            สกรีนจากคอมพิวเตอร์ตรงลงผ้า ไม่จำกัดจำนวนสี สีไล่เงาสามมิติตามแบบตรงไฟล์ เหมาะสำหรับงานล็อตด่วนและสั่งทำจำนวนน้อย
+          </p>
+        </div>
+      </div>
+
+      <!-- System 3 -->
+      <div class="grid grid-cols-1 sm:grid-cols-[0.85fr_1.15fr] gap-8 items-center reveal-right" style="transition-delay: 300ms">
+        <div class="h-[200px] overflow-hidden border border-[#e5e3db]/60 bg-[#f4f3ee] rounded-none group">
+          <Image src={sublimation} alt="Sublimation" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102" />
+        </div>
+        <div class="pl-2">
+          <div class="text-[0.62rem] font-bold tracking-widest text-[#3d4536] mb-2 flex items-center gap-2">
+            SYSTEM 03 <span class="w-4 h-[1px] bg-[#d0ba99]"></span>
+          </div>
+          <h3 class="text-sm font-bold uppercase tracking-wider mb-2 text-[#242622]">งานพิมพ์สีกระดาษฝัง (Sublimation)</h3>
+          <p class="text-xs text-[#656a60] leading-relaxed">
+            สีซึมระเหิดฝังแน่นลงโครงเส้นใยโพลีเอสเตอร์ ทนต่อการซักรีด 100% ระบายลมดี เหมาะกับเสื้อกีฬาและผ้าทำกิจกรรมกลางแจ้ง
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

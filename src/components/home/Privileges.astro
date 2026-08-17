@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+
+// นำเข้าไฟล์ภาพจริงสำหรับประกอบสเปก
+import designFreeImg from '@/assets/home/Privileges/บริการออกแบบก่อน-ผลิตเสื้อ.png';
+import screenFreeImg from '@/assets/home/Privileges/silk-screen.png';
+import shippingFreeImg from '@/assets/home/Privileges/จัดส่งเสื้อยืดหลังจาก-ผลิตเสื้อยืดเสร็จ.png';
+---
+
+<section class="pt-12 pb-24 max-w-[1200px] mx-auto px-6 relative">
+  <!-- Minimalist separator line -->
+  <div class="w-[1px] h-[40px] bg-[#e5e3db]/80 mx-auto mb-10"></div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-24 items-center">
+    
+    <!-- Left Column: Specs sheet list -->
+    <div class="flex flex-col reveal-left">
+      <p class="text-[0.65rem] font-bold tracking-[0.25em] uppercase text-[#3d4536] mb-3">Privileges</p>
+      <h2 class="text-3xl font-normal tracking-tight text-[#242622] mb-6 font-serif leading-tight">
+        ข้อเสนอพิเศษและการดูแล
+      </h2>
+      <p class="text-[#656a60] text-sm leading-relaxed mb-12">
+        เราดูแลให้ทุกขั้นตอนการจัดทำเป็นไปได้อย่างราบรื่นและได้ผลงานเสื้อผ้าที่ตรงตามเป้าหมายของแบรนด์คุณ
+      </p>
+
+      <div class="flex flex-col text-xs font-bold tracking-wider uppercase text-[#242622]">
+        
+        <div class="flex justify-between items-center py-5 border-y border-[#e5e3db]/60 hover:pl-2 transition-all duration-300">
+          <span class="flex items-center gap-3">
+            <span class="text-[#d0ba99]">✦</span> บริการขึ้นลายม็อคอัพ 3D จำลองฟรี
+          </span>
+          <span class="text-[0.62rem] text-[#3d4536] bg-[#f5f2e9] border border-[#3d4536]/80 px-2.5 py-1 rounded-none font-bold">Mockup Free</span>
+        </div>
+
+        <div class="flex justify-between items-center py-5 border-b border-[#e5e3db]/60 hover:pl-2 transition-all duration-300">
+          <span class="flex items-center gap-3">
+            <span class="text-[#d0ba99]">✦</span> สกรีนฟรี 1 สี 1 จุด (สั่งผลิต 100 ตัวขึ้นไป)
+          </span>
+          <span class="text-[0.62rem] text-[#3d4536] bg-[#f5f2e9] border border-[#3d4536]/80 px-2.5 py-1 rounded-none font-bold">Setup Free</span>
+        </div>
+
+        <div class="flex justify-between items-center py-5 border-b border-[#e5e3db]/60 hover:pl-2 transition-all duration-300">
+          <span class="flex items-center gap-3">
+            <span class="text-[#d0ba99]">✦</span> จัดส่งฟรีทั่วเขตกรุงเทพฯ และปริมณฑล
+          </span>
+          <span class="text-[0.62rem] text-[#3d4536] bg-[#f5f2e9] border border-[#3d4536]/80 px-2.5 py-1 rounded-none font-bold">Delivery Free</span>
+        </div>
+
+        <div class="flex justify-between items-center py-5 border-b border-[#e5e3db]/60 hover:pl-2 transition-all duration-300">
+          <span class="flex items-center gap-3">
+            <span class="text-[#d0ba99]">✦</span> ปรึกษาสัดส่วนผ้าและคิวผลิตฟรี
+          </span>
+          <span class="text-[0.62rem] text-[#3d4536] bg-[#f5f2e9] border border-[#3d4536]/80 px-2.5 py-1 rounded-none font-bold">Consulting</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right Column: Asymmetric Lookbook Collage with Flat Layout -->
+    <div class="grid grid-cols-2 gap-6 reveal-right" style="transition-delay: 150ms">
+      <div class="row-span-2 h-[540px] overflow-hidden border border-[#e5e3db]/60 rounded-none group">
+        <Image src={designFreeImg} alt="การออกแบบเสื้อผ้า" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102" />
+      </div>
+      <div class="h-[258px] overflow-hidden border border-[#e5e3db]/60 rounded-none group">
+        <Image src={screenFreeImg} alt="เทคนิคงานพิมพ์สกรีน" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102" />
+      </div>
+      <div class="h-[258px] overflow-hidden border border-[#e5e3db]/60 rounded-none group">
+        <Image src={shippingFreeImg} alt="บริการจัดส่งพรีเมียม" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102" />
+      </div>
+    </div>
+
+  </div>
+</section>

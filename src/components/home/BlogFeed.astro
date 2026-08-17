@@ -1,0 +1,99 @@
+---
+// Blog Feed (หน้าแรก) — ดึง 3 บทความล่าสุดจริงจาก collection
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf())
+  .slice(0, 3);
+
+// แยกบทความตัวเด่น (Featured) และบทความย่อย (List)
+const featuredPost = posts[0];
+const listPosts = posts.slice(1);
+---
+
+{posts.length > 0 && (
+<section class="py-24 max-w-[1200px] mx-auto px-6 relative z-20">
+  
+  <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-[#e5e3db]/80">
+    <div>
+      <p class="text-[0.65rem] font-bold tracking-[0.25em] uppercase text-[#3d4536] mb-2">Journal</p>
+      <h2 class="text-3xl font-normal tracking-tight text-[#242622] font-serif">เรื่องราวสิ่งทอและงานดีไซน์</h2>
+    </div>
+    
+    <a href="/blog/" class="text-[0.7rem] font-bold tracking-widest uppercase text-[#3d4536] no-underline border-b border-[#3d4536]/20 pb-0.5 hover:border-[#3d4536] transition-colors mt-4 md:mt-0">
+      อ่านบทความทั้งหมด →
+    </a>
+  </div>
+
+  <!-- Featured Grid Layout (1 Large card on left, 2 stacked columns on right) -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    
+    <!-- Left Column: Featured Post (Spans 7 columns) -->
+    {featuredPost && (
+      <a href={`/blog/${featuredPost.id}/`} class="lg:col-span-7 flex flex-col no-underline text-[#242622] group bg-white border border-[#e5e3db]/60 p-6 rounded-2xl hover:border-[#3d4536] hover:translate-y-[-4px] hover:shadow-lg hover:shadow-[#3d4536]/2 transition-all duration-500">
+        <div class="h-[340px] overflow-hidden border border-[#e5e3db]/60 bg-[#f4f3ee] mb-6 rounded-xl">
+          {featuredPost.data.cover && (
+            <Image
+              src={featuredPost.data.cover}
+              alt={featuredPost.data.coverAlt || featuredPost.data.title}
+              widths={[600, 800]}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          )}
+        </div>
+        <span class="text-[0.65rem] font-bold tracking-widest uppercase text-[#3d4536] mb-3 flex items-center gap-2">
+          Featured · {featuredPost.data.category}
+        </span>
+        <h3 class="text-xl font-normal tracking-tight text-[#242622] mb-4 group-hover:text-[#3d4536] transition-colors font-serif leading-snug">
+          {featuredPost.data.title}
+        </h3>
+        <p class="text-xs text-[#656a60] leading-relaxed mb-6 line-clamp-3">
+          {featuredPost.data.description}
+        </p>
+        <span class="text-[0.7rem] text-[#9b9f96] font-semibold">
+          {featuredPost.data.publishedAt.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </span>
+      </a>
+    )}
+
+    <!-- Right Column: List of Stacked Posts (Spans 5 columns) -->
+    <div class="lg:col-span-5 flex flex-col gap-8">
+      {listPosts.map((post) => {
+        const d = post.data;
+        return (
+          <a href={`/blog/${post.id}/`} class="flex flex-col sm:flex-row gap-6 bg-white border border-[#e5e3db]/60 p-5 rounded-2xl hover:border-[#3d4536] hover:translate-y-[-2px] hover:shadow-lg hover:shadow-[#3d4536]/2 transition-all duration-500 no-underline text-[#242622] group">
+            <div class="w-full sm:w-[150px] h-[120px] shrink-0 overflow-hidden border border-[#e5e3db]/60 bg-[#f4f3ee] rounded-xl">
+              {d.cover && (
+                <Image
+                  src={d.cover}
+                  alt={d.coverAlt || d.title}
+                  widths={[300]}
+                  sizes="150px"
+                  loading="lazy"
+                  class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              )}
+            </div>
+            <div class="flex flex-col justify-center">
+              <span class="text-[0.6rem] font-bold tracking-widest uppercase text-[#3d4536] mb-2">
+                {d.category}
+              </span>
+              <h4 class="text-sm font-semibold tracking-tight text-[#242622] mb-2 group-hover:text-[#3d4536] transition-colors line-clamp-2 leading-snug">
+                {d.title}
+              </h4>
+              <span class="text-[0.68rem] text-[#9b9f96]">
+                {d.publishedAt.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+  </div>
+</section>
+)}

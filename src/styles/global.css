@@ -1,0 +1,119 @@
+/* Global stylesheet — entrypoint เดียวของโปรเจค
+ * starwind.css = Tailwind v4 + Starwind theme tokens (light/dark) + base layer
+ * เพิ่ม custom global styles ของโปรเจคต่อท้ายได้ที่ไฟล์นี้ */
+@import "./starwind.css";
+
+/* ฟอนต์ IBM Plex Sans Thai — self-host ผ่าน Fontsource
+ * โหลดน้ำหนัก 300, 400, 500, 600, 700 ที่ใช้งานจริง
+ * พร้อมเทคโนโลยี font-display: swap ในตัวเพื่อช่วยความเร็วในการโหลดหน้าเว็บ */
+@import "@fontsource/ibm-plex-sans-thai/300.css";
+@import "@fontsource/ibm-plex-sans-thai/400.css";
+@import "@fontsource/ibm-plex-sans-thai/500.css";
+@import "@fontsource/ibm-plex-sans-thai/600.css";
+@import "@fontsource/ibm-plex-sans-thai/700.css";
+
+@plugin "@tailwindcss/typography";
+
+/* ฟอนต์หลักของไซต์ = IBM Plex Sans Thai ปรับให้ตรงกันทั้ง Sans และ Serif */
+@theme {
+  --font-sans: "IBM Plex Sans Thai", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "IBM Plex Sans Thai", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ตัวอย่าง: ปรับ scroll behavior ทั้งไซต์ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  :root {
+    /* Quiet Luxury - Organic Scandinavian Palette */
+    --bg:       #faf9f6; /* Warm milk-white / alabaster */
+    --bg2:      #f4f3ee; /* Soft linen warm grey */
+    --surface:  #ffffff; /* Pure white */
+    --border:   #e5e3db; /* Extremely thin, muted solid border */
+    --border-accent: rgba(74, 83, 67, 0.15); /* Soft olive border */
+
+    --text:     #242622; /* Forest charcoal */
+    --text2:    #656a60; /* Soft sage warm grey */
+    --text3:    #9b9f96; /* Light sand warm grey */
+
+    --olive:    #3d4536; /* Deep organic olive green */
+    --olive-light: #5f6a55; /* Sage green */
+    --wheat:    #d0ba99; /* Muted wheat */
+    --wheat-bg: #f5f2e9; /* Soft cream wash */
+    
+    --shadow: none; /* No shadow for pure editorial magazine look */
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    /* Soft ambient background glow in corners */
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(208, 186, 153, 0.07) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, rgba(95, 106, 85, 0.07) 0%, transparent 50%);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Scroll Reveal Motion */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+  
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-24px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.97);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
+  }
+
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+

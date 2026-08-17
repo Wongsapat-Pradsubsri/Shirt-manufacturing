@@ -1,0 +1,33 @@
+---
+// Page layout — โครงสร้างครอบคลุมของแต่ละหน้าหลัก (Navbar + main + Footer)
+import Layout from '@/layouts/Layout.astro';
+import Navbar from '@/components/Navbar.astro';
+import Footer from '@/components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** คลาสของ <main> — กำหนดคลาสเพื่อคุมขอบเขตของเนื้อหา */
+  mainClass?: string;
+  activePath?: string;
+}
+
+const {
+  mainClass = 'max-w-[1360px] mx-auto px-6 pt-4 pb-12 md:px-16 md:pt-6 md:pb-12 relative z-10',
+  activePath,
+  ...seo
+} = Astro.props;
+---
+
+<Layout {...seo}>
+  <Navbar activePath={activePath} />
+  <main class={mainClass}>
+    <slot />
+  </main>
+  <Footer />
+</Layout>
+

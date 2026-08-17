@@ -1,0 +1,195 @@
+---
+// Navbar — แถบนำทางส่วนหัวของหน้าเว็บ
+import { Image } from 'astro:assets';
+import logo from '@/assets/logo.png';
+import { SITE } from '@/consts';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  activePath?: string;
+}
+const { activePath } = Astro.props;
+
+const serviceItems = [
+  {
+    title: 'บริการทั้งหมด',
+    description: 'ภาพรวมการผลิตเสื้อผ้าและบริการครบวงจร',
+    href: '/services/',
+    icon: 'building-factory-2'
+  },
+  {
+    title: 'ขั้นตอนการผลิต',
+    description: '4 ขั้นตอนจากแบบร่างสู่เสื้อผ้าสำเร็จรูป',
+    href: '/services/#process',
+    icon: 'file-check'
+  },
+  {
+    title: 'งานตัดเย็บเสื้อยืดพรีเมียม',
+    description: 'เสื้อยืดคอกลม คอวี ทรงโอเวอร์ไซส์ตามสั่ง',
+    href: '/services/#t-shirts',
+    icon: 'scissors'
+  },
+  {
+    title: 'เสื้อโปโล & ยูนิฟอร์มบริษัท',
+    description: 'เสื้อคอปกพรีเมียมและงานปักโลโก้ประณีต',
+    href: '/services/#polo',
+    icon: 'shirt'
+  },
+  {
+    title: 'งานพิมพ์สกรีน & ดิจิทัล',
+    description: 'ซิลค์สกรีน, DTG / DTF, งานซับลิเมชัน',
+    href: '/services/#screen',
+    icon: 'palette'
+  }
+];
+---
+
+<header class="flex items-center justify-between px-6 py-4 md:px-16 border-b border-[#e5e3db]/60 bg-[#faf9f6]/75 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
+  <a class="flex items-center gap-3 text-current no-underline group" href="/">
+    <Image src={logo} alt={SITE.name} class="h-8 w-auto block object-contain transition-transform duration-300 group-hover:scale-105" />
+    <span class="text-sm font-bold tracking-widest uppercase text-[#3d4536] transition-colors group-hover:text-[#5f6a55]">{SITE.name}</span>
+  </a>
+  
+  <nav class="hidden md:flex items-center gap-10 text-[0.8rem] font-bold uppercase tracking-wider">
+    {/* บริการ Dropdown */}
+    <div class="relative group py-2">
+      <a href="/services/" class={`flex items-center gap-1.5 font-bold uppercase tracking-wider no-underline transition-colors duration-300 pb-1 ${activePath === 'services' ? 'text-[#3d4536] border-b-2 border-[#3d4536]' : 'text-[#656a60] hover:text-[#3d4536]'}`}>
+        บริการ
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 transition-transform duration-300 group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+      
+      {/* Dropdown Panel Wrapper (to bridge the hover gap and make hover continuous) */}
+      <div class="absolute top-full left-1/2 -translate-x-1/2 pt-3 w-80 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0 origin-top pointer-events-none group-hover:pointer-events-auto z-50">
+        <div class="bg-[#faf9f6]/98 backdrop-blur-md border border-[#e5e3db]/80 rounded-xl shadow-lg p-2 flex flex-col gap-1">
+          {serviceItems.map((item) => (
+            <a
+              href={item.href}
+              class="flex items-start gap-3.5 p-3 rounded-lg hover:bg-[#3d4536]/5 no-underline transition-all duration-200 group/item"
+            >
+              <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-[#3d4536]/5 text-[#3d4536] flex items-center justify-center transition-all duration-300 group-hover/item:bg-[#3d4536] group-hover/item:text-white group-hover/item:scale-105">
+                <Icon name={item.icon as any} size={18} />
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[0.78rem] font-bold text-[#242622] leading-tight transition-colors group-hover/item:text-[#3d4536]">
+                  {item.title}
+                </span>
+                <span class="text-[0.68rem] text-[#656a60] font-medium mt-1 leading-relaxed normal-case">
+                  {item.description}
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <a href="/products/" class={activePath === 'products' ? 'text-[#3d4536] border-b-2 border-[#3d4536] pb-1' : 'text-[#656a60] hover:text-[#3d4536] no-underline transition-colors duration-300'}>ผลงาน</a>
+    <a href="/blog/" class={activePath === 'blog' ? 'text-[#3d4536] border-b-2 border-[#3d4536] pb-1' : 'text-[#656a60] hover:text-[#3d4536] no-underline transition-colors duration-300'}>บทความ</a>
+    <a href="/services/#contact" class="inline-flex items-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white px-6 py-2.5 font-bold text-[0.75rem] tracking-wider no-underline transition-all duration-300 uppercase shadow-sm shadow-[#06C755]/15 rounded-sm">
+      <Icon name="brand-line" size={16} />
+      ทัก LINE
+    </a>
+  </nav>
+
+  {/* Mobile Menu Button */}
+  <button id="mobile-menu-btn" class="md:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5 focus:outline-none z-50 relative" aria-label="Toggle Menu">
+    <span class="w-6 h-[2px] bg-[#3d4536] transition-all duration-300 origin-center" id="bar-1"></span>
+    <span class="w-6 h-[2px] bg-[#3d4536] transition-all duration-300" id="bar-2"></span>
+    <span class="w-6 h-[2px] bg-[#3d4536] transition-all duration-300 origin-center" id="bar-3"></span>
+  </button>
+</header>
+
+<!-- Mobile Drawer Overlay -->
+<div id="mobile-menu" class="fixed inset-0 bg-[#faf9f6]/98 backdrop-blur-lg z-45 flex flex-col pt-24 px-6 md:hidden translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto pb-8">
+  <nav class="flex flex-col gap-6 text-sm font-bold uppercase tracking-wider">
+    <div class="flex flex-col">
+      <span class="text-[#9b9f96] text-[0.65rem] tracking-[0.2em] mb-3 uppercase font-bold">บริการของเรา</span>
+      <div class="flex flex-col gap-2.5">
+        {serviceItems.map((item) => (
+          <a
+            href={item.href}
+            class="flex items-center gap-3.5 p-3.5 bg-white/70 border border-[#e5e3db]/60 rounded-xl hover:bg-[#3d4536]/5 active:bg-[#3d4536]/5 no-underline transition-all duration-200"
+          >
+            <div class="flex-shrink-0 w-8 h-8 rounded-lg bg-[#3d4536]/5 text-[#3d4536] flex items-center justify-center">
+              <Icon name={item.icon as any} size={15} />
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[0.78rem] font-bold text-[#242622] leading-tight">{item.title}</span>
+              <span class="text-[0.65rem] text-[#656a60] font-medium mt-0.5 normal-case leading-relaxed">{item.description}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+    
+    <div class="flex flex-col gap-3 mt-1">
+      <span class="text-[#9b9f96] text-[0.65rem] tracking-[0.2em] mb-1 uppercase font-bold">เมนูหลัก</span>
+      <div class="grid grid-cols-2 gap-3">
+        <a
+          href="/products/"
+          class={`flex items-center justify-center p-3.5 rounded-xl border border-[#e5e3db]/60 no-underline font-bold text-xs tracking-wider transition-colors ${activePath === 'products' ? 'bg-[#3d4536] text-white border-[#3d4536]' : 'bg-white/70 text-[#656a60] hover:text-[#3d4536] active:bg-[#3d4536]/5'}`}
+        >
+          ผลงาน
+        </a>
+        <a
+          href="/blog/"
+          class={`flex items-center justify-center p-3.5 rounded-xl border border-[#e5e3db]/60 no-underline font-bold text-xs tracking-wider transition-colors ${activePath === 'blog' ? 'bg-[#3d4536] text-white border-[#3d4536]' : 'bg-white/70 text-[#656a60] hover:text-[#3d4536] active:bg-[#3d4536]/5'}`}
+        >
+          บทความ
+        </a>
+      </div>
+    </div>
+    
+    <a
+      href="/services/#contact"
+      class="flex items-center justify-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white py-4 mt-4 font-bold text-xs tracking-wider no-underline transition-all duration-300 rounded-xl shadow-md shadow-[#06C755]/15"
+    >
+      <Icon name="brand-line" size={18} />
+      ทัก LINE สอบถามข้อมูล
+    </a>
+  </nav>
+</div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const bar1 = document.getElementById('bar-1');
+  const bar2 = document.getElementById('bar-2');
+  const bar3 = document.getElementById('bar-3');
+
+  if (btn && menu && bar1 && bar2 && bar3) {
+    btn.addEventListener('click', () => {
+      const isOpen = menu.classList.contains('translate-x-0');
+      if (isOpen) {
+        menu.classList.remove('translate-x-0');
+        menu.classList.add('translate-x-full');
+        bar1.classList.remove('rotate-45', 'translate-y-[8px]');
+        bar2.classList.remove('opacity-0');
+        bar3.classList.remove('-rotate-45', '-translate-y-[8px]');
+        document.body.classList.remove('overflow-hidden');
+      } else {
+        menu.classList.remove('translate-x-full');
+        menu.classList.add('translate-x-0');
+        bar1.classList.add('rotate-45', 'translate-y-[8px]');
+        bar2.classList.add('opacity-0');
+        bar3.classList.add('-rotate-45', '-translate-y-[8px]');
+        document.body.classList.add('overflow-hidden');
+      }
+    });
+
+    // Close menu when a link is clicked
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('translate-x-0');
+        menu.classList.add('translate-x-full');
+        bar1.classList.remove('rotate-45', 'translate-y-[8px]');
+        bar2.classList.remove('opacity-0');
+        bar3.classList.remove('-rotate-45', '-translate-y-[8px]');
+        document.body.classList.remove('overflow-hidden');
+      });
+    });
+  }
+</script>
+

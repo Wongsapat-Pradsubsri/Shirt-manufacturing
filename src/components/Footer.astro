@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import logo from '@/assets/logo.png';
+import { SITE } from '@/consts';
+---
+
+<footer class="bg-[#f4f3ee] border-t border-[#e5e3db] py-20 px-6 md:px-16 mt-20 relative z-20">
+  <div class="max-w-[1200px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.5fr] gap-16 pb-16 border-b border-[#e5e3db]">
+      
+      <!-- Brand column -->
+      <div class="flex flex-col">
+        <div class="flex items-center gap-3 mb-6">
+          <Image src={logo} alt={SITE.name} class="h-8 w-auto block object-contain" />
+          <span class="text-sm font-bold tracking-widest uppercase text-[#3d4536]">{SITE.name}</span>
+        </div>
+        <p class="text-xs text-[#656a60] leading-loose">
+          บริษัท ธน พลัส 153 จำกัด<br />
+          503 ถนนสุโขทัย แขวงสวนจิตรลดา<br />
+          เขตดุสิต กรุงเทพมหานคร 10300
+        </p>
+      </div>
+
+      <!-- Links column 1 -->
+      <div class="flex flex-col">
+        <h4 class="text-[0.68rem] font-bold tracking-widest uppercase text-[#9b9f96] mb-6">บริการด้านสินค้า</h4>
+        <div class="flex flex-col gap-3.5 text-xs font-semibold uppercase tracking-wider">
+          <a href="/services/" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">บริการสกรีนและพิมพ์ผ้า</a>
+          <a href="/products/" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">แคตตาล็อกผลงาน</a>
+          <a href="/services/#screen" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">เทคนิคงานพิมพ์สกรีน</a>
+        </div>
+      </div>
+
+      <!-- Links column 2 -->
+      <div class="flex flex-col">
+        <h4 class="text-[0.68rem] font-bold tracking-widest uppercase text-[#9b9f96] mb-6">ความช่วยเหลือ</h4>
+        <div class="flex flex-col gap-3.5 text-xs font-semibold uppercase tracking-wider">
+          <a href="/blog/" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">บทความเรียนรู้เรื่องสิ่งทอ</a>
+          <a href="/services/#faq" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">คำถามที่พบบ่อย</a>
+          <a href="/services/#contact" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">ช่องทางการติดต่อเรา</a>
+        </div>
+      </div>
+
+      <!-- Contacts column -->
+      <div class="flex flex-col">
+        <h4 class="text-[0.68rem] font-bold tracking-widest uppercase text-[#9b9f96] mb-6">ช่องทางติดต่อ</h4>
+        <div class="flex flex-col gap-3.5 text-xs font-semibold uppercase tracking-wider">
+          <a href={SITE.contact.lineLink} target="_blank" rel="noopener noreferrer" class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">LINE: {SITE.contact.line}</a>
+          <a href={SITE.contact.phoneLink} class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">โทรติดต่อ: {SITE.contact.phone}</a>
+          <a href={`mailto:${SITE.contact.email}`} class="text-[#656a60] hover:text-[#3d4536] no-underline transition-colors">{SITE.contact.email}</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="flex flex-col sm:flex-row items-center justify-between pt-8 text-[0.68rem] font-semibold uppercase tracking-wider text-[#9b9f96] gap-4">
+      <span>© 2569 {SITE.name} — บริษัท ธน พลัส 153 จำกัด</span>
+      <span>ควบคุมด้วยมาตรฐานสากล · มิตรภาพ · ตรงเวลา</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+
+interface Props {
+  excludeId?: string;
+}
+const { excludeId } = Astro.props;
+
+let posts = await getCollection('blog', (p) => !p.data.draft);
+if (excludeId) {
+  posts = posts.filter((p) => p.id !== excludeId);
+}
+// Sort by date descending and take top 5
+posts = posts.sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf()).slice(0, 5);
+---
+
+<div class="bg-white border border-[#e5e3db]/60 p-6 sm:p-8 rounded-none shadow-none">
+  <div class="flex items-center gap-3 mb-6 pb-4 border-b border-[#e5e3db]/60">
+    <span class="text-[#d0ba99]">✦</span>
+    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900">บทความอ่านล่าสุด</h3>
+  </div>
+  
+  <ul class="flex flex-col gap-5">
+    {posts.map((post) => (
+      <li>
+        <a href={`/blog/${post.id}`} class="group flex gap-4 items-start no-underline">
+          <div class="shrink-0 w-20 h-20 border border-[#e5e3db]/60 rounded-none overflow-hidden bg-gray-100 relative">
+            {post.data.cover ? (
+              <Image 
+                src={post.data.cover} 
+                alt={post.data.title} 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                width={80}
+                height={80}
+              />
+            ) : (
+              <div class="w-full h-full bg-[#faf9f6] flex items-center justify-center text-[#3d4536]/20">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              </div>
+            )}
+          </div>
+          <div class="flex-1">
+            <h4 class="text-xs font-bold text-gray-900 leading-relaxed group-hover:text-[#3d4536] transition-colors duration-300 line-clamp-2 mb-1.5 uppercase tracking-wide">
+              {post.data.title}
+            </h4>
+            <time class="text-[0.62rem] text-gray-500 font-bold uppercase tracking-wider">
+              {post.data.publishedAt.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+          </div>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

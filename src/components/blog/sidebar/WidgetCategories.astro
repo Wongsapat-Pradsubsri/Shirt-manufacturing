@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', (p) => !p.data.draft);
+
+// Extract and count categories
+const categoryCounts = posts.reduce((acc, post) => {
+  const cat = post.data.category;
+  if (cat) {
+    acc[cat] = (acc[cat] || 0) + 1;
+  }
+  return acc;
+}, {} as Record<string, number>);
+
+// Sort categories alphabetically or by count (here by count descending)
+const sortedCategories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+---
+
+<div class="bg-white border border-[#e5e3db]/60 p-6 sm:p-8 rounded-none shadow-none">
+  <div class="flex items-center gap-3 mb-6 pb-4 border-b border-[#e5e3db]/60">
+    <span class="text-[#d0ba99]">✦</span>
+    <h3 class="text-xs font-bold uppercase tracking-wider text-gray-900">หมวดหมู่</h3>
+  </div>
+  
+  <ul class="flex flex-col gap-3">
+    {sortedCategories.map(([category, count]) => (
+      <li>
+        <a href={`/category/${category}`} class="group flex items-center justify-between text-gray-600 hover:text-[#3d4536] transition-colors duration-300 no-underline">
+          <span class="text-xs font-medium">{category}</span>
+          <span class="bg-[#faf9f6]/95 border border-[#3d4536]/20 text-[#3d4536] text-[0.62rem] font-mono font-bold px-2.5 py-0.5 rounded-none group-hover:border-[#3d4536] transition-colors duration-300">
+            {count}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>

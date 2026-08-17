@@ -1,0 +1,379 @@
+---
+import Icon from '../Icon.astro';
+---
+
+<section id="planner" class="py-24 border-t border-[#e5e3db] bg-[#f4f3ee]/30 reveal">
+  <div class="max-w-7xl mx-auto px-6">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <span class="text-[0.65rem] font-bold tracking-[0.25em] uppercase text-[#3d4536] mb-3 block">Production Planner</span>
+      <h2 class="text-3xl md:text-4xl font-normal tracking-tight text-[#242622] font-serif">เครื่องมือวางแผนและคำนวณการสั่งผลิตเสื้อ</h2>
+      <p class="text-xs text-[#656a60] mt-3 max-w-[600px] mx-auto leading-relaxed">
+        ทดลองเลือกสไตล์เสื้อ ปรับเปลี่ยนเฉดสีผ้า และระบุจำนวนสั่งผลิตเพื่อประเมินราคาและงบประมาณเบื้องต้นของแบรนด์คุณได้ทันที
+      </p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start max-w-[1100px] mx-auto">
+      
+      <!-- Left Column: Garment Previewer (5 cols) -->
+      <div class="lg:col-span-5 flex flex-col items-center">
+        <!-- Toggle Tabs -->
+        <div class="flex bg-white border border-[#e5e3db] p-1 mb-8 w-full max-w-[340px] shadow-sm">
+          <button class="flex-1 py-2 text-[0.7rem] font-bold tracking-wider uppercase text-center transition-colors bg-[#3d4536] text-white" id="tab-tshirt">
+            เสื้อยืด
+          </button>
+          <button class="flex-1 py-2 text-[0.7rem] font-bold tracking-wider uppercase text-center transition-colors text-[#656a60] hover:text-[#3d4536]" id="tab-polo">
+            เสื้อโปโล
+          </button>
+          <button class="flex-1 py-2 text-[0.7rem] font-bold tracking-wider uppercase text-center transition-colors text-[#656a60] hover:text-[#3d4536]" id="tab-sport">
+            เสื้อกีฬา
+          </button>
+        </div>
+
+        <!-- Preview Area Card -->
+        <div class="w-full max-w-[340px] aspect-[4/5] bg-white border border-[#e5e3db] shadow-sm flex items-center justify-center p-8 relative rounded-2xl">
+          <!-- T-Shirt Mockup -->
+          <div id="mockup-tshirt" class="w-full h-full flex items-center justify-center text-[#3d4536] transition-colors duration-300">
+            <svg viewBox="0 0 100 100" class="w-5/6 h-5/6 drop-shadow-md">
+              <path d="M20,20 L30,12 C33,18 40,20 50,20 C60,20 67,18 70,12 L80,20 L90,40 L78,45 L76,85 L24,85 L22,45 L10,40 Z" fill="currentColor" />
+              <path d="M50,20 C40,20 33,18 30,12 C28,15 25,21 20,20 L15,35 L22,37 L24,45 L24,85 L50,85 Z" fill="black" opacity="0.06" />
+              <path d="M50,20 C60,20 67,18 70,12 C72,15 75,21 80,20 L85,35 L78,37 L76,45 L76,85 L50,85 Z" fill="white" opacity="0.04" />
+              <path d="M30,12 C35,19 45,21 50,21 C55,21 65,19 70,12" fill="none" stroke="black" stroke-width="1.2" opacity="0.15" />
+              <line x1="10" y1="40" x2="22" y2="45" stroke="black" stroke-width="0.8" opacity="0.1" />
+              <line x1="90" y1="40" x2="78" y2="45" stroke="black" stroke-width="0.8" opacity="0.1" />
+            </svg>
+          </div>
+
+          <!-- Polo Mockup (Hidden initially) -->
+          <div id="mockup-polo" class="w-full h-full flex items-center justify-center text-[#3d4536] transition-colors duration-300 hidden">
+            <svg viewBox="0 0 100 100" class="w-5/6 h-5/6 drop-shadow-md">
+              <path d="M20,20 L30,12 L50,17 L70,12 L80,20 L90,40 L78,45 L76,85 L24,85 L22,45 L10,40 Z" fill="currentColor" />
+              <path d="M30,12 L50,17 L33,26 Z" fill="currentColor" filter="brightness(0.85)" />
+              <path d="M70,12 L50,17 L67,26 Z" fill="currentColor" filter="brightness(0.85)" />
+              <path d="M47,17 L53,17 L53,35 L47,35 Z" fill="currentColor" filter="brightness(0.9)" stroke="black" stroke-width="0.5" opacity="0.15" />
+              <circle cx="50" cy="21" r="1.2" fill="white" opacity="0.8" />
+              <circle cx="50" cy="27" r="1.2" fill="white" opacity="0.8" />
+              <circle cx="50" cy="33" r="1.2" fill="white" opacity="0.8" />
+              <path d="M50,17 L24,85 L50,85 Z" fill="black" opacity="0.05" />
+              <path d="M50,17 L76,85 L50,85 Z" fill="white" opacity="0.04" />
+            </svg>
+          </div>
+
+          <!-- Sportswear Mockup (Hidden initially) -->
+          <div id="mockup-sport" class="w-full h-full flex items-center justify-center text-[#3d4536] transition-colors duration-300 hidden">
+            <svg viewBox="0 0 100 100" class="w-5/6 h-5/6 drop-shadow-md">
+              <path d="M20,20 L30,12 C33,18 40,20 50,20 C60,20 67,18 70,12 L80,20 L90,40 L78,45 L76,85 L24,85 L22,45 L10,40 Z" fill="currentColor" />
+              <path d="M30,12 C33,18 40,20 50,20 L38,35 L22,45 L10,40 Z" fill="currentColor" filter="brightness(0.82)" id="sport-sleeve-left" />
+              <path d="M70,12 C67,18 60,20 50,20 L62,35 L78,45 L90,40 Z" fill="currentColor" filter="brightness(0.82)" id="sport-sleeve-right" />
+              <path d="M24,55 L28,55 L28,85 L24,85 Z" fill="white" opacity="0.25" />
+              <path d="M76,55 L72,55 L72,85 L76,85 Z" fill="white" opacity="0.25" />
+              <path d="M50,20 L24,85 L50,85 Z" fill="black" opacity="0.06" />
+              <path d="M50,20 L76,85 L50,85 Z" fill="white" opacity="0.04" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Color Selection Dots -->
+        <div class="mt-6 flex flex-col items-center">
+          <span class="text-[0.6rem] font-bold tracking-widest text-[#9b9f96] uppercase mb-3">เฉดสีเสื้อ (Fabric Color)</span>
+          <div class="flex gap-3">
+            <button class="w-7 h-7 rounded-full border border-black/25 bg-[#faf9f6] focus:outline-none ring-2 ring-offset-2 ring-[#3d4536]" data-color="#faf9f6" data-color-name="ขาวนวล" aria-label="White"></button>
+            <button class="w-7 h-7 rounded-full border border-black/25 bg-[#18181b] focus:outline-none" data-color="#18181b" data-color-name="ดำชาโคล" aria-label="Black"></button>
+            <button class="w-7 h-7 rounded-full border border-black/25 bg-[#1e3a8a] focus:outline-none" data-color="#1e3a8a" data-color-name="น้ำเงินกรม" aria-label="Navy Blue"></button>
+            <button class="w-7 h-7 rounded-full border border-black/25 bg-[#3d4536] focus:outline-none" data-color="#3d4536" data-color-name="เขียวมะกอก" aria-label="Olive Green"></button>
+            <button class="w-7 h-7 rounded-full border border-black/25 bg-[#6b7280] focus:outline-none" data-color="#6b7280" data-color-name="เทาสแลต" aria-label="Slate Grey"></button>
+            <button class="w-7 h-7 rounded-full border border-black/25 bg-[#991b1b] focus:outline-none" data-color="#991b1b" data-color-name="แดงทับทิม" aria-label="Ruby Red"></button>
+          </div>
+          <span class="text-xs font-bold text-[#3d4536] mt-3" id="color-indicator">สีปัจจุบัน: ขาวนวล</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Price Calculator (7 cols) -->
+      <div class="lg:col-span-7 bg-white border border-[#e5e3db] p-8 md:p-10 rounded-2xl shadow-sm">
+        <h3 class="text-lg font-bold text-[#242622] mb-6 flex items-center gap-2">
+          <Icon name="scissors" size={18} />
+          สเปกการสั่งผลิตสินค้า
+        </h3>
+
+        <div class="flex flex-col gap-6">
+          <!-- Fabric choice -->
+          <div>
+            <label class="block text-[0.68rem] font-bold uppercase tracking-wider text-[#656a60] mb-2">เกรดเนื้อผ้าผ้า (Fabric Spec)</label>
+            <select id="select-fabric" class="w-full p-3 bg-[#f4f3ee]/50 border border-[#e5e3db] text-xs font-semibold text-[#242622] focus:outline-none focus:border-[#3d4536]">
+              <!-- T-shirt options -->
+              <option value="cotton-20" class="fabric-opt-tshirt">Cotton 100% Comb No. 20 (หนานุ่ม ทรงตัวดี)</option>
+              <option value="cotton-32" class="fabric-opt-tshirt" selected>Cotton 100% Comb No. 32 (นุ่มพิเศษ ใส่สบายยอดนิยม)</option>
+              <option value="cvc" class="fabric-opt-tshirt">ผ้า CVC Premium (ไม่หด ยับยาก ซับเหงื่อดี)</option>
+              <!-- Polo options -->
+              <option value="juti-micro" class="fabric-opt-polo hidden">ผ้าจูติไมโคร Juti Micro (เนื้อแห้ง ระบายความร้อนดี)</option>
+              <option value="kaneko" class="fabric-opt-polo hidden">ผ้าคาร์เนโกะ Kaneko Premium (เนื้อรูระเบียบ สุภาพ)</option>
+              <!-- Sport options -->
+              <option value="micro-poly" class="fabric-opt-sport hidden">ผ้าไมโครโพลีเอสเตอร์ Micro Polyester (เบา แห้งไวมาก)</option>
+            </select>
+          </div>
+
+          <!-- Decoration choice -->
+          <div>
+            <label class="block text-[0.68rem] font-bold uppercase tracking-wider text-[#656a60] mb-2">งานพิมพ์และงานตกแต่งโลโก้ (Logo Decoration)</label>
+            <select id="select-print" class="w-full p-3 bg-[#f4f3ee]/50 border border-[#e5e3db] text-xs font-semibold text-[#242622] focus:outline-none focus:border-[#3d4536]">
+              <option value="screen" selected>งานพิมพ์ซิลค์สกรีนกึ่งยาง (Silk Screen - เหมาะกับลายลายเส้นสีเดี่ยว)</option>
+              <option value="dtf">งานพิมพ์ดิจิตอลสีสด (DTF Print - เหมาะกับลายหลากสีสัน/ภาพกราฟิก)</option>
+              <option value="embroidery">งานปักโลโก้พรีเมียม (Embroidery - ไหมปักแน่น เหมาะสำหรับยูนิฟอร์ม)</option>
+            </select>
+          </div>
+
+          <!-- Quantity slider -->
+          <div>
+            <div class="flex justify-between items-baseline mb-2">
+              <label class="text-[0.68rem] font-bold uppercase tracking-wider text-[#656a60]">จำนวนที่ต้องการผลิต (Order Quantity)</label>
+              <span class="text-base font-bold text-[#3d4536]" id="qty-val">100 ตัว</span>
+            </div>
+            <input 
+              type="range" 
+              id="slider-qty" 
+              min="20" 
+              max="1000" 
+              step="10" 
+              value="100" 
+              class="w-full h-1.5 bg-[#e5e3db] rounded-lg appearance-none cursor-pointer accent-[#3d4536]"
+            />
+            <div class="flex justify-between text-[0.65rem] text-[#9b9f96] font-semibold mt-1">
+              <span>สั่งขั้นต่ำ 20 ตัว</span>
+              <span>100 ตัว (เรทยอดนิยม)</span>
+              <span>1,000+ ตัว (เรทพิเศษโรงงาน)</span>
+            </div>
+          </div>
+
+          <!-- Price Output Section -->
+          <div class="mt-4 p-5 bg-[#faf9f6] border border-[#e5e3db] rounded-xl flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="text-center sm:text-left">
+              <span class="block text-[0.6rem] font-bold uppercase tracking-wider text-[#9b9f96]">ราคาต่อตัวโดยประมาณ (Est. Unit Price)</span>
+              <span class="text-2xl font-bold text-[#3d4536] mt-1 block" id="unit-price">฿180.-</span>
+            </div>
+            <div class="h-[1px] w-full sm:h-12 sm:w-[1px] bg-[#e5e3db]"></div>
+            <div class="text-center sm:text-right">
+              <span class="block text-[0.6rem] font-bold uppercase tracking-wider text-[#9b9f96]">ราคารวมประมาณการ (Est. Total Budget)</span>
+              <span class="text-2xl font-bold text-[#242622] mt-1 block" id="total-price">฿18,000.-</span>
+            </div>
+          </div>
+
+          <!-- Contact LINE CTA -->
+          <button id="btn-quote" class="w-full flex items-center justify-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white py-4 font-bold text-xs tracking-wider no-underline transition-all duration-300 rounded-xl shadow-md shadow-[#06C755]/15 mt-2 cursor-pointer">
+            <Icon name="brand-line" size={18} />
+            ส่งสเปกนี้เพื่อปรึกษาทาง LINE
+          </button>
+          
+          <p class="text-[0.62rem] text-center text-[#9b9f96] font-medium leading-relaxed">
+            * ราคาประเมินข้างต้นเป็นราคาเริ่มต้นโดยประมาณ ค่าบล็อกสกรีน/ค่าขึ้นลายปักฟรีเมื่อสั่งครบ 100 ตัวเป็นต้นไป
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupPlanner() {
+    // Tabs
+    const tabTshirt = document.getElementById('tab-tshirt');
+    const tabPolo = document.getElementById('tab-polo');
+    const tabSport = document.getElementById('tab-sport');
+
+    // Mockups
+    const mockTshirt = document.getElementById('mockup-tshirt');
+    const mockPolo = document.getElementById('mockup-polo');
+    const mockSport = document.getElementById('mockup-sport');
+
+    // Fabric selections
+    const fabricSelect = document.getElementById('select-fabric') as HTMLSelectElement;
+    const printSelect = document.getElementById('select-print') as HTMLSelectElement;
+
+    // Inputs
+    const sliderQty = document.getElementById('slider-qty') as HTMLInputElement;
+    const qtyVal = document.getElementById('qty-val');
+    
+    // Outputs
+    const unitPriceOutput = document.getElementById('unit-price');
+    const totalPriceOutput = document.getElementById('total-price');
+
+    // State
+    let currentGarment = 'tshirt'; // tshirt, polo, sport
+    let currentColor = '#faf9f6';
+    let currentColorName = 'ขาวนวล';
+
+    // Pricing base configurations
+    const basePrices: Record<string, number> = {
+      // T-Shirt
+      'cotton-20': 160,
+      'cotton-32': 150,
+      'cvc': 175,
+      // Polo
+      'juti-micro': 210,
+      'kaneko': 230,
+      // Sport
+      'micro-poly': 140
+    };
+
+    const decCosts: Record<string, number> = {
+      'screen': 20,
+      'dtf': 35,
+      'embroidery': 25
+    };
+
+    // Helper: update fabric dropdown based on garment choice
+    function updateFabricDropdown(garment: string) {
+      const opts = fabricSelect.querySelectorAll('option');
+      opts.forEach(opt => {
+        if (opt.classList.contains(`fabric-opt-${garment}`)) {
+          opt.classList.remove('hidden');
+        } else {
+          opt.classList.add('hidden');
+        }
+      });
+
+      // Set default value based on choice
+      if (garment === 'tshirt') {
+        fabricSelect.value = 'cotton-32';
+      } else if (garment === 'polo') {
+        fabricSelect.value = 'juti-micro';
+      } else if (garment === 'sport') {
+        fabricSelect.value = 'micro-poly';
+      }
+    }
+
+    // Toggle active tab style
+    function setActiveTab(active: HTMLElement, inactives: HTMLElement[]) {
+      active.className = "flex-1 py-2 text-[0.7rem] font-bold tracking-wider uppercase text-center transition-colors bg-[#3d4536] text-white";
+      inactives.forEach(tab => {
+        tab.className = "flex-1 py-2 text-[0.7rem] font-bold tracking-wider uppercase text-center transition-colors text-[#656a60] hover:text-[#3d4536]";
+      });
+    }
+
+    // Calculate Price
+    function calculate() {
+      const qty = parseInt(sliderQty.value);
+      const fabric = fabricSelect.value;
+      const print = printSelect.value;
+
+      if (qtyVal) qtyVal.innerText = `${qty} ตัว`;
+
+      const base = basePrices[fabric] || 150;
+      const dec = decCosts[print] || 20;
+      let costPerUnit = base + dec;
+
+      // Adjust for small batch markup or bulk discount
+      if (qty < 50) {
+        costPerUnit = Math.round(costPerUnit * 1.30); // small batch markup
+      } else if (qty < 100) {
+        costPerUnit = Math.round(costPerUnit * 1.15); // medium batch markup
+      } else if (qty >= 500) {
+        costPerUnit = Math.round(costPerUnit * 0.85); // bulk discount
+      } else if (qty >= 300) {
+        costPerUnit = Math.round(costPerUnit * 0.92); // mid discount
+      }
+
+      const totalCost = costPerUnit * qty;
+
+      if (unitPriceOutput) unitPriceOutput.innerText = `฿${costPerUnit.toLocaleString('th-TH')}.-`;
+      if (totalPriceOutput) totalPriceOutput.innerText = `฿${totalCost.toLocaleString('th-TH')}.-`;
+    }
+
+    // Bind tab events
+    if (tabTshirt && tabPolo && tabSport && mockTshirt && mockPolo && mockSport) {
+      tabTshirt.addEventListener('click', () => {
+        currentGarment = 'tshirt';
+        setActiveTab(tabTshirt, [tabPolo, tabSport]);
+        mockTshirt.classList.remove('hidden');
+        mockPolo.classList.add('hidden');
+        mockSport.classList.add('hidden');
+        updateFabricDropdown('tshirt');
+        calculate();
+      });
+
+      tabPolo.addEventListener('click', () => {
+        currentGarment = 'polo';
+        setActiveTab(tabPolo, [tabTshirt, tabSport]);
+        mockPolo.classList.remove('hidden');
+        mockTshirt.classList.add('hidden');
+        mockSport.classList.add('hidden');
+        updateFabricDropdown('polo');
+        calculate();
+      });
+
+      tabSport.addEventListener('click', () => {
+        currentGarment = 'sport';
+        setActiveTab(tabSport, [tabTshirt, tabPolo]);
+        mockSport.classList.remove('hidden');
+        mockTshirt.classList.add('hidden');
+        mockPolo.classList.add('hidden');
+        updateFabricDropdown('sport');
+        calculate();
+      });
+    }
+
+    // Color buttons
+    const colorBtns = document.querySelectorAll('[data-color]');
+    const colorIndicator = document.getElementById('color-indicator');
+
+    colorBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        // Remove active class from all color buttons
+        colorBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-2', 'ring-[#3d4536]'));
+        
+        const target = e.currentTarget as HTMLElement;
+        target.classList.add('ring-2', 'ring-offset-2', 'ring-[#3d4536]');
+
+        const color = target.getAttribute('data-color') || '#faf9f6';
+        currentColor = color;
+        currentColorName = target.getAttribute('data-color-name') || 'ขาวนวล';
+
+        if (colorIndicator) {
+          colorIndicator.innerText = `สีปัจจุบัน: ${currentColorName}`;
+        }
+
+        // Apply color dynamically to mockups
+        if (mockTshirt) mockTshirt.style.color = color;
+        if (mockPolo) mockPolo.style.color = color;
+        if (mockSport) mockSport.style.color = color;
+      });
+    });
+
+    // Input listeners
+    if (sliderQty) sliderQty.addEventListener('input', calculate);
+    if (fabricSelect) fabricSelect.addEventListener('change', calculate);
+    if (printSelect) printSelect.addEventListener('change', calculate);
+
+    // Initial calculation
+    calculate();
+
+    // LINE spec button
+    const btnQuote = document.getElementById('btn-quote');
+    if (btnQuote) {
+      btnQuote.addEventListener('click', () => {
+        const qty = sliderQty.value;
+        const fabricText = fabricSelect.options[fabricSelect.selectedIndex].text;
+        const printText = printSelect.options[printSelect.selectedIndex].text;
+        
+        let garmentName = 'เสื้อยืด';
+        if (currentGarment === 'polo') garmentName = 'เสื้อโปโล';
+        if (currentGarment === 'sport') garmentName = 'เสื้อกีฬา';
+
+        const lineText = `สวัสดีครับ สนใจสั่งผลิตเสื้อกับโรงงานครับ\n\n- ประเภท: ${garmentName}\n- เฉดสี: ${currentColorName}\n- เนื้อผ้า: ${fabricText}\n- งานสกรีน/ปัก: ${printText}\n- จำนวนสั่งทำ: ${qty} ตัว`;
+        
+        // Open line with query
+        const lineUrl = `https://line.me/R/ti/p/@thanaplus?text=${encodeURIComponent(lineText)}`;
+        window.open(lineUrl, '_blank');
+      });
+    }
+  }
+
+  // Run on page load
+  document.addEventListener('astro:page-load', setupPlanner);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPlanner);
+  } else {
+    setupPlanner();
+  }
+</script>

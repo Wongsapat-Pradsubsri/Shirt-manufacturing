@@ -1,0 +1,65 @@
+---
+// ServiceProcess — ขั้นตอนการสั่งผลิตเสื้อดีไซน์ใหม่สไตล์โมเดิร์นไทม์ไลน์
+// ใช้คลาส ID สำหรับการนำทางของลิงก์และคลาส scroll-mt-24 เพื่อการเลื่อนที่ราบรื่น
+import SectionHeading from '@/components/services/SectionHeading.astro';
+
+const steps = [
+  {
+    title: 'ปรึกษา & ขอใบเสนอราคา',
+    desc: 'แจ้งแบบเสื้อ จำนวน และลายที่ต้องการ ทีมงานประเมินราคาให้ฟรีรวดเร็ว',
+  },
+  {
+    title: 'ออกแบบ & ขึ้นแบบ',
+    desc: 'ทีมดีไซน์ช่วยจัดวางลายและขึ้นม็อคอัพ 3D ให้ดูก่อนตัดสินใจเริ่มผลิตจริง',
+  },
+  {
+    title: 'เลือกผ้า & ยืนยันเสื้อตัวอย่าง',
+    desc: 'เลือกเนื้อผ้า สี รูปทรง และตรวจเช็คความสมบูรณ์แบบของเสื้อตัวอย่างจริง',
+  },
+  {
+    title: 'เข้าสู่สายการผลิต & สกรีน',
+    desc: 'ตัดเย็บและสกรีนพิมพ์ลวดลายอย่างพิถีพิถันด้วยเครื่องจักรที่ทันสมัย',
+  },
+  {
+    title: 'ตรวจสอบคุณภาพ QC 100%',
+    desc: 'ตรวจสอบมาตรฐานทุกจุดตามหลัก QPC ก่อนบรรจุลงกล่องอย่างเรียบร้อย',
+  },
+  {
+    title: 'แพ็คสินค้า & จัดส่งฟรี',
+    desc: 'ห่อกันกระแทกอย่างดีและส่งมอบฟรีถึงที่หมายปลายทางทั่วไทย (ตามเงื่อนไข)',
+  },
+] as const;
+---
+
+<section id="process" class="scroll-mt-24 mt-24 lg:mt-32">
+  <SectionHeading
+    class="mb-16 lg:mb-20"
+    eyebrow="ขั้นตอนและมาตรฐานการบริการ · Workflow"
+    title="สั่งผลิตเสื้อคุณภาพใน 6 ขั้นตอนง่ายๆ"
+    intro="สัมผัสขั้นตอนการทำงานที่เป็นระบบและชัดเจนตั้งแต่เริ่มต้นพูดคุย ไปจนถึงการได้รับมอบสินค้าคุณภาพดีที่ตรงใจคุณที่สุด"
+  />
+
+  {/* แผงขั้นตอนการสั่งผลิต */}
+  <div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8">
+    {steps.map((step, i) => (
+      <div class="group relative flex flex-col pt-6 border-t-2 border-gray-200 hover:border-gray-900 transition-colors duration-500">
+        {/* จุดเชื่อมต่อบนเส้นไทม์ไลน์ */}
+        <div class="absolute -top-[7px] left-0 w-3.5 h-3.5 bg-gray-200 rounded-full border border-white group-hover:bg-gray-900 transition-colors duration-500"></div>
+        
+        <div class="flex items-baseline justify-between mb-4">
+          <span class="text-5xl font-black text-gray-300 leading-none tabular-nums group-hover:text-gray-900 transition-colors duration-500">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+        </div>
+
+        <h3 class="text-lg font-bold text-gray-900 mb-2.5 group-hover:text-black transition-colors">
+          {step.title}
+        </h3>
+        
+        <p class="text-gray-600 text-sm leading-relaxed max-w-sm">
+          {step.desc}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
