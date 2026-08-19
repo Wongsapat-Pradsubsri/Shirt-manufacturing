@@ -11,6 +11,7 @@ const products = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
+      h1: z.string().optional(),
       description: z.string(),
       // ราคา (บาท)
       price: z.number().nonnegative(),

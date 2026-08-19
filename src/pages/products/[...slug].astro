@@ -91,7 +91,7 @@ const showSizeGuide = !d.tags.includes('bag');
       <span class="inline-flex items-center gap-1.5 text-[0.62rem] font-bold tracking-widest uppercase text-[#3d4536] mb-3">
         ✦ ผลงานการผลิตของเรา
       </span>
-      <h1 class="text-3xl md:text-4xl font-normal tracking-tight text-[#242622] mb-6 font-serif">{d.title}</h1>
+      <h1 class="text-3xl md:text-4xl font-normal tracking-tight text-[#242622] mb-6 font-serif">{d.h1 || d.title}</h1>
       {d.price > 0 && (
         <p class="text-2xl font-semibold text-[#3d4536] mb-6">
           ฿{d.price.toLocaleString('th-TH')}

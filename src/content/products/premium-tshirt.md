@@ -1,5 +1,6 @@
 ---
-title: "Premium Cotton T-Shirt"
+title: "เสื้อพรีเมียมคอตตอน เสื้อยืด รับผลิตเสื้อยืด"
+h1: "Premium Cotton T-Shirt"
 description: "เสื้อยืดผ้าคอตตอน เกรดพรีเมียม สัมผัสนุ่ม สวมใส่สบาย ระบายอากาศได้ดีเยี่ยม เหมาะสำหรับทุกโอกาส"
 price: 490
 image: "../../assets/home/T-Shirts_Collection.png"
