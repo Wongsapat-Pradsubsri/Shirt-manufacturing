@@ -5,7 +5,9 @@ import type { APIContext } from 'astro';
 import { SITE } from '@/consts';
 
 export async function GET(context: APIContext) {
-  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  // RSS feed เดิมจากคอลเลกชัน blog (คอมเมนต์ซ่อนไว้ตามแผน)
+  // const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  const posts: any[] = [];
 
   return rss({
     title: SITE.name,

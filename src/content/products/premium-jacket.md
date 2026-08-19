@@ -1,5 +1,5 @@
 ---
-title: "Premium Bomber Jacket"
+title: "รับทำเสื้อแจ็คเก็ต รับทำเสื้อผ้าแคนวาส"
 description: "เสื้อแจ็คเก็ตบอมเบอร์ผ้าแคนวาสมินิมัล ตัดเย็บประณีต มีกระเป๋าข้าง อบอุ่นสวมใส่สบาย"
 price: 950
 image: "../../assets/home/jacket_premium_black.png"

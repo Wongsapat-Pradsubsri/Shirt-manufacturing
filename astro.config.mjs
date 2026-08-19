@@ -34,11 +34,10 @@ export default defineConfig({
       changefreq: "weekly",
       priority: 0.7,
       lastmod: new Date(),
-      // กันไฟล์ข้อมูลพรีวิว (endpoint .json) + หน้า /tag/* (ตั้ง noindex,nofollow)
+      // กันไฟล์ข้อมูลพรีวิว (endpoint .json) + หน้า /tag/* และ /blog/
       // ไม่ให้หลุดลง sitemap — sitemap ควรมีเฉพาะหน้าที่ตั้งใจให้ index เท่านั้น
-      // (อย่าใช้ robots Disallow /tag/ แทน เพราะ Googlebot ต้องคลานเข้าหน้าได้จึงจะเห็น meta noindex)
       filter: (page) =>
-        !page.endsWith("/blog-previews.json") && !page.includes("/tag/"),
+        !page.endsWith("/blog-previews.json") && !page.includes("/tag/") && !page.includes("/blog/"),
       // ปรับ priority/changefreq รายหน้าให้สะท้อนความสำคัญจริง
       // เทียบด้วย pathname (กันปัญหา trailing slash จาก SITE_URL)
       serialize(item) {
@@ -56,25 +55,9 @@ export default defineConfig({
           // หน้า list สินค้า — ทางเข้าหลักของ catalog
           item.priority = 0.9;
           item.changefreq = EnumChangefreq.WEEKLY;
-        } else if (path === "/blog/") {
-          // หน้า list บล็อก — hub ของคอนเทนต์
-          item.priority = 0.8;
-          item.changefreq = EnumChangefreq.WEEKLY;
         } else if (path.startsWith("/products/")) {
           // หน้าสินค้ารายชิ้น
           item.priority = 0.8;
-          item.changefreq = EnumChangefreq.WEEKLY;
-        } else if (path.startsWith("/blog/")) {
-          // บทความบล็อกรายชิ้น — เผยแพร่แล้วเปลี่ยนไม่บ่อย
-          item.priority = 0.7;
-          item.changefreq = EnumChangefreq.MONTHLY;
-        } else if (path.startsWith("/category/")) {
-          // หน้า category (หมวดหมู่บล็อก) — taxonomy
-          item.priority = 0.5;
-          item.changefreq = EnumChangefreq.WEEKLY;
-        } else if (path.startsWith("/tag/")) {
-          // หน้า tag — taxonomy ละเอียดสุด ความสำคัญต่ำสุด
-          item.priority = 0.4;
           item.changefreq = EnumChangefreq.WEEKLY;
         }
         return item;
@@ -91,8 +74,8 @@ export default defineConfig({
         {
           userAgent: "*",
           allow: "/",
-          // กันบอทไม่ให้ไล่ query string ของ search/filter (กัน duplicate/crawl budget)
-          disallow: ["/*?"],
+          // กันบอทไม่ให้ไล่ query string ของ search/filter และหมวด blog
+          disallow: ["/*?", "/blog/"],
         },
       ],
     }),

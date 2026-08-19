@@ -1,5 +1,5 @@
 ---
-title: "Premium Canvas Tote Bag"
+title: "รับผลิตกระเป๋าผ้าแคนวาส กระเป๋าผ้าพรีเมี่ยม โรงงานพิมพ์ผ้า"
 description: "กระเป๋าผ้าแคนวาสสั่งผลิต ตัดเย็บประณีต แข็งแรงทนทาน เหมาะสำหรับทำสินค้าพรีเมียมและของระลึกแบรนด์"
 price: 180
 image: "../../assets/blogs/custom-canvas-tote-bag-eco-merch-2026.png"

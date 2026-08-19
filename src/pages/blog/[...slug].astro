@@ -12,11 +12,10 @@ import { buildFaqJsonLd } from '@/lib/faq';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  // ปิดการปั๊มหน้าบทความย่อยตามแผน (คอมเมนต์ซ่อนไว้)
+  // const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+  // return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+  return [];
 }
 
 const { post } = Astro.props;
