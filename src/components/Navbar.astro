@@ -86,7 +86,6 @@ const serviceItems = [
     </div>
 
     <a href="/products/" class={activePath === 'products' ? 'text-[#3d4536] border-b-2 border-[#3d4536] pb-1' : 'text-[#656a60] hover:text-[#3d4536] no-underline transition-colors duration-300'}>ผลงาน</a>
-    <a href="/blog/" class={activePath === 'blog' ? 'text-[#3d4536] border-b-2 border-[#3d4536] pb-1' : 'text-[#656a60] hover:text-[#3d4536] no-underline transition-colors duration-300'}>บทความ</a>
     <a href="/services/#contact" class="inline-flex items-center gap-2 bg-[#06C755] hover:bg-[#05b34c] text-white px-6 py-2.5 font-bold text-[0.75rem] tracking-wider no-underline transition-all duration-300 uppercase shadow-sm shadow-[#06C755]/15 rounded-sm">
       <Icon name="brand-line" size={16} />
       ทัก LINE
@@ -126,18 +125,12 @@ const serviceItems = [
     
     <div class="flex flex-col gap-3 mt-1">
       <span class="text-[#9b9f96] text-[0.65rem] tracking-[0.2em] mb-1 uppercase font-bold">เมนูหลัก</span>
-      <div class="grid grid-cols-2 gap-3">
+      <div class="grid grid-cols-1 gap-3">
         <a
           href="/products/"
           class={`flex items-center justify-center p-3.5 rounded-xl border border-[#e5e3db]/60 no-underline font-bold text-xs tracking-wider transition-colors ${activePath === 'products' ? 'bg-[#3d4536] text-white border-[#3d4536]' : 'bg-white/70 text-[#656a60] hover:text-[#3d4536] active:bg-[#3d4536]/5'}`}
         >
           ผลงาน
-        </a>
-        <a
-          href="/blog/"
-          class={`flex items-center justify-center p-3.5 rounded-xl border border-[#e5e3db]/60 no-underline font-bold text-xs tracking-wider transition-colors ${activePath === 'blog' ? 'bg-[#3d4536] text-white border-[#3d4536]' : 'bg-white/70 text-[#656a60] hover:text-[#3d4536] active:bg-[#3d4536]/5'}`}
-        >
-          บทความ
         </a>
       </div>
     </div>
