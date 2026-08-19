@@ -5,23 +5,8 @@ import BlogSidebar from '@/components/blog/sidebar/BlogSidebar.astro';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', (p) => !p.data.draft);
-  
-  // Extract all unique tags
-  const tags = new Set<string>();
-  posts.forEach(post => {
-    if (post.data.tags) {
-      post.data.tags.forEach(tag => tags.add(tag));
-    }
-  });
-  
-  return Array.from(tags).map(tag => {
-    const filteredPosts = posts.filter(post => post.data.tags && post.data.tags.includes(tag));
-    return {
-      params: { tag },
-      props: { posts: filteredPosts, tag },
-    };
-  });
+  // ปิดการปั๊มหน้าแท็กบล็อกตามแผน (คอมเมนต์ซ่อนไว้)
+  return [];
 }
 
 const { posts, tag } = Astro.props;

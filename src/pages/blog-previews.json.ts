@@ -24,40 +24,7 @@ function readingTimeOf(body: string): number {
 }
 
 export const GET: APIRoute = async () => {
-  const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
-
-  const entries = await Promise.all(
-    posts.map(async (post) => {
-      const d = post.data;
-
-      let cover: string | undefined;
-      if (d.cover) {
-        const img = await getImage({
-          src: d.cover,
-          width: 320,
-          height: 200,
-          format: 'webp',
-          fit: 'cover',
-        });
-        cover = img.src;
-      }
-
-      return [
-        `/blog/${post.id}`,
-        {
-          title: d.title,
-          description: d.description,
-          cover,
-          coverAlt: d.coverAlt ?? d.title,
-          category: d.category,
-          readingTime: readingTimeOf(post.body ?? ''),
-          dateLabel: dateFmt.format(d.publishedAt),
-        },
-      ] as const;
-    }),
-  );
-
-  return new Response(JSON.stringify(Object.fromEntries(entries)), {
+  return new Response(JSON.stringify({}), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   });
 };
