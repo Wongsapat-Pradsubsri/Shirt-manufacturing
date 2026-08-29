@@ -27,8 +27,8 @@ const {
   jsonLd,
 } = Astro.props;
 
-// separator " – " (en dash) แยกหัวข้อหน้ากับชื่อแบรนด์ให้ชัดใน SERP
-const pageTitle = title ? `${title} – ${SITE.name}` : SITE.title;
+// ใช้ title ที่กำหนดมาโดยตรง หากไม่ได้ระบุให้ใช้ SITE.title เพื่อกัน Title ยาวเกินเกณฑ์ 60 อักษร
+const pageTitle = title ? title : SITE.title;
 
 // canonical = URL ปัจจุบันเทียบกับ Astro.site
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
